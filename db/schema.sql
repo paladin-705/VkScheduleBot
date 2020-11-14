@@ -81,5 +81,3 @@ CREATE TABLE api_users
   username character varying(50),
   pw_hash character(60)
 )
-
-CREATE INDEX trgm_idx ON trgm USING GIN (t gin_trgm_ops);
