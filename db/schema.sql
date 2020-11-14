@@ -50,7 +50,10 @@ CREATE TABLE users
   auto_posting_time time without time zone,
   is_today boolean,
   registration_timestamp timestamp with time zone DEFAULT now(),
-  PRIMARY KEY (type, id)
+  PRIMARY KEY (type, id),
+  CONSTRAINT users_fkey FOREIGN KEY ("scheduleTag")
+      REFERENCES organizations (tag) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE NO ACTION
 );
 
 CREATE VIEW users_vw AS 
