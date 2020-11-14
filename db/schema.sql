@@ -3,7 +3,7 @@ CREATE TABLE organizations
   id serial,
   organization character varying(80),
   faculty character varying(80),
-  studgroup character varying(20),
+  studgroup character varying(50),
   tag character(30) PRIMARY KEY
 );
 
