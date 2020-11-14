@@ -53,7 +53,7 @@ CREATE TABLE users
   PRIMARY KEY (type, id),
   CONSTRAINT users_fkey FOREIGN KEY ("scheduleTag")
       REFERENCES organizations (tag) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE VIEW users_vw AS 
