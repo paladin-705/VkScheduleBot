@@ -1,2 +1,4 @@
 flask
+flask-jwt-extended
+flask-bcrypt
 psycopg2
