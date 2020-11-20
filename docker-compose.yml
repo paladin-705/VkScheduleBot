@@ -1,5 +1,16 @@
 version: '3'
 services:
+  database:
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DB}
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
   api_server:
     image: api_server
     build:
@@ -7,6 +18,10 @@ services:
     volumes:
       - ./api_server:/api
       - ./api_server/socket:/api/socket
+    depends_on:
+      - database
+    ports:
+      - 5432:5432
 
   vk_bot:
     image: vk_bot
@@ -15,6 +30,10 @@ services:
     volumes:
       - ./vk_bot:/bot
       - ./vk_bot/socket:/bot/socket
+    depends_on:
+      - database
+    ports:
+      - 5432:5432
 
   nginx:
     image: nginx:1.13-alpine

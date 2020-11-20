@@ -1,0 +1,44 @@
+#!/bin/sh
+
+DB_NAME="bot_db"
+DB_HOST="0.0.0.0"
+
+JWT_SECRET_KEY=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)
+
+printf "SCHEDULE_DB_NAME='%s'\n"     "$1" >> config.cfg
+printf "SCHEDULE_DB_HOST='%s'\n"     "$DB_HOST" >> config.cfg
+printf "SCHEDULE_DB_USER='%s'\n"     "$2" >> config.cfg
+printf "SCHEDULE_DB_PASSWORD='%s'\n" "$3" >> config.cfg
+
+printf "API_DB_NAME='%s'\n"          "$1" >> config.cfg
+printf "API_DB_HOST='%s'\n"          "$DB_HOST" >> config.cfg
+printf "API_DB_USER='%s'\n"          "$2" >> config.cfg
+printf "API_DB_PASSWORD='%s'\n"      "$3" >> config.cfg
+
+printf "LOG_DIR_PATH='%s'\n"         "./" >> config.cfg
+
+printf "JWT_SECRET_KEY='%s'\n"       "$JWT_SECRET_KEY" >> config.cfg
+
+
+printf "DB_NAME='%s'\n"              "$1" >> config.cfg
+printf "DB_HOST='%s'\n"              "$DB_HOST" >> config.cfg
+printf "DB_USER='%s'\n"              "$2" >> config.cfg
+printf "DB_PASSWORD='%s'\n"          "$3" >> config.cfg
+
+printf "CONFIRMATION_TOKEN='%s'\n"   "$4" >> config.cfg
+printf "TOKEN='%s'\n"                "$5" >> config.cfg
+
+printf "WEEK_TYPE=%u\n"              "$6" >> config.cfg
+printf "STATISTIC_TOKEN='%s'\n"      "$7" >> config.cfg
+printf "ADMIN_VK_ID='%s'\n"          "$8" >> config.cfg
+
+
+cp config.cfg api_server/app/config.cfg
+cp config.cfg vk_bot/app/config.cfg
+rm config.cfg
+
+printf "PG_USER=%s\n"                "$1" >> .env
+printf "PG_PASSWORD=%s\n"            "$2" >> .env
+printf "PG_DB=%s\n"                  "$3" >> .env
+
+docker-compose up
