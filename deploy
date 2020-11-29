@@ -43,5 +43,6 @@ rm config.cfg
 printf "PG_DB=%s\n"                 "$1" >> .env
 printf "PG_USER=%s\n"               "$2" >> .env
 printf "PG_PASSWORD=%s\n"           "$3" >> .env
+printf "TZ=%s\n"                    "Europe/Moscow" >> .env
 
 docker-compose up
