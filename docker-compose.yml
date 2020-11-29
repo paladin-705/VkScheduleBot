@@ -51,7 +51,7 @@ services:
       - database
 
   nginx:
-    image: nginx:1.13-alpine
+    image: nginx:alpine
     environment:
       - TZ=${TZ}
     volumes:
