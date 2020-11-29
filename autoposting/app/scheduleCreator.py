@@ -30,12 +30,11 @@ def print_week_type(week_type=-1):
 
 
 @lru_cache(maxsize=128)
-def create_schedule_text(tag, day, week_type, config):
-    result = []
+def create_schedule_text(tag, day, week_type):
     schedule = ""
     is_empty = True
     try:
-        with ScheduleDB(config) as db:
+        with ScheduleDB() as db:
             data = db.get_schedule(tag, day, week_type)
 
         schedule += "🔎 | {}: {}\n\n".format(
@@ -48,7 +47,7 @@ def create_schedule_text(tag, day, week_type, config):
             title = ' '.join(str(row[1]).split())
             classroom = ' '.join(str(row[2]).split())
 
-            schedule +=  '⏳ | {} пара: '.format(str(row[0]))
+            schedule += '⏳ | {} пара: '.format(str(row[0]))
             # Этот блок нужен для вывода тех занятий, где занятия по числителю и знамнателю различаются
             if index != len(data) - 1:
                 # Сравнивается порядковый номер занятия данной и следующей строки и если они равны,
@@ -70,11 +69,6 @@ def create_schedule_text(tag, day, week_type, config):
                 schedule += '{0} {1} {2}\n\n'.format(title, classroom, print_type(row[3], week_type))
 
             index += 1
-        result.append(schedule)
-        result.append(is_empty)
+        return schedule, is_empty
     except:
-        pass
-    finally:
-        if len(result) != 2:
-            result = ['', True]
-        return result
+        return '', True

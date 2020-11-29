@@ -1,21 +1,26 @@
+import configparser
 import logging
 import psycopg2
 from datetime import datetime
 
 
 class ScheduleDB:
-    def __init__(self, config):
+    def __init__(self):
+        config = configparser.ConfigParser()
+        config.read('config.cfg')
+
         self.con = psycopg2.connect(
-            dbname=config["DB_NAME"],
-            user=config["DB_USER"],
-            password=config["DB_PASSWORD"],
-            host=config["DB_HOST"]
+            dbname=config.get('bot', 'DB_NAME'),
+            user=config.get('bot', 'DB_USER'),
+            password=config.get('bot', 'DB_PASSWORD'),
+            host=config.get('bot', 'DB_HOST')
         )
         self.cur = self.con.cursor()
 
         logging.basicConfig(format='%(asctime)-15s [ %(levelname)s ] %(message)s',
                             filemode='a',
-                            filename=config["LOG_DIR_PATH"] + "log-{0}.log".format(datetime.now().strftime("%Y-%m")))
+                            filename=config.get('bot', 'LOG_DIR_PATH') + "log-{0}.log".format(
+                                datetime.now().strftime("%Y-%m")))
         self.logger = logging.getLogger('db-logger')
 
     def __enter__(self):

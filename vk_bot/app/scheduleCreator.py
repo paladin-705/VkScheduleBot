@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from functools import lru_cache
 
+from flask import current_app as app
 from app.scheduledb import ScheduleDB
 from app import app, helpers
 
@@ -72,8 +73,8 @@ def create_schedule_text(tag, day, week_type=-1):
             index += 1
         result.append(schedule)
         result.append(is_empty)
-    except:
-        pass
+    except BaseException as e:
+        app.logger.warning('create_schedule_text: {}'.format(str(e)))
     finally:
         if len(result) != 2:
             result = ['', True]
