@@ -1,7 +1,7 @@
 from flask import current_app as app
 from app.scheduledb import ScheduleDB
 from app.helpers import get_main_keyboard
-from app.messages import error_message
+from app.messages import error_message, registration_success_message
 
 # Статистика
 from app.statistic import track
@@ -18,10 +18,7 @@ def registration_stage_4(uid, key, data):
         if len(row) == 0:
             return error_message, ''
 
-        message = '✅ | Регистрация\n\n' \
-                  'Отлично, Вы зарегистрировались, введенные данные можно посмотреть/отредактировать ' \
-                  'в личном кабинете, нажав на "Изменить данные".\n\n'\
-                  '❓ | Напишите: Помощь, если желаете узнать все доступные команды.'
+        message = registration_success_message
 
         with ScheduleDB(app.config) as db:
             user = db.find_user(uid)

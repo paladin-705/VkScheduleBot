@@ -1,4 +1,3 @@
-from app.helpers import get_keyboard
 from flask import current_app as app
 import vk
 
@@ -42,7 +41,6 @@ def send_error_message(token, message, attachment=""):
             api.messages.send(access_token=token,
                               user_id=str(app.config['ADMIN_VK_ID']),
                               message=message,
-                              attachment=attachment,
-                              keyboard=get_keyboard())
+                              attachment=attachment)
     except BaseException as e:
         app.logger.warning('send_error_message: {}\n{}'.format(str(e), str(message)))

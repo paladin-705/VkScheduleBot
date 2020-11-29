@@ -1,4 +1,4 @@
-CREATE TABLE organizations
+CREATE TABLE IF NOT EXISTS organizations
 (
   id serial,
   organization character varying(80),
@@ -7,10 +7,10 @@ CREATE TABLE organizations
   tag character(30) PRIMARY KEY
 );
 
-CREATE EXTENSION pg_trgm;
-CREATE INDEX trgm_idx ON organizations USING GIN (lower(organization || ' ' || faculty || ' ' || studgroup) gin_trgm_ops);
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE INDEX IF NOT EXISTS trgm_idx ON organizations USING GIN (lower(organization || ' ' || faculty || ' ' || studgroup) gin_trgm_ops);
 
-CREATE TABLE schedule
+CREATE TABLE IF NOT EXISTS schedule
 (
   id serial,
   tag character(30),
@@ -28,7 +28,7 @@ CREATE TABLE schedule
 	ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE examinations
+CREATE TABLE IF NOT EXISTS examinations
 (
   tag character(30),
   title character varying(100),
@@ -40,7 +40,7 @@ CREATE TABLE examinations
 	ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
   type character(2),
   id integer,
@@ -56,7 +56,7 @@ CREATE TABLE users
       ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-CREATE VIEW users_vw AS 
+CREATE OR REPLACE VIEW users_vw AS
  SELECT users.type,
     users.id,
     organizations.organization,
@@ -69,7 +69,7 @@ CREATE VIEW users_vw AS
      JOIN organizations ON users."scheduleTag" = organizations.tag
  ORDER BY organizations.studgroup;
 
-CREATE TABLE reports
+CREATE TABLE IF NOT EXISTS reports
 (
   type character(2),
   report_id serial PRIMARY KEY,
@@ -78,7 +78,7 @@ CREATE TABLE reports
   date date
 );
 
-CREATE TABLE api_users
+CREATE TABLE IF NOT EXISTS api_users
 (
   id serial PRIMARY KEY,
   username character varying(50),

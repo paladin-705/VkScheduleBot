@@ -7,7 +7,9 @@ services:
       - POSTGRES_PASSWORD=${PG_PASSWORD}
       - POSTGRES_DB=${PG_DB}
     volumes:
-      - /var/lib/postgresql/data
+      - ./db/data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    restart: always
     ports:
       - 5432:5432
 
@@ -20,8 +22,6 @@ services:
       - ./api_server/socket:/api/socket
     depends_on:
       - database
-    ports:
-      - 5432:5432
 
   vk_bot:
     image: vk_bot
@@ -32,8 +32,15 @@ services:
       - ./vk_bot/socket:/bot/socket
     depends_on:
       - database
-    ports:
-      - 5432:5432
+
+  autoposting:
+    image: autoposting
+    build:
+      context: autoposting
+    volumes:
+      - ./autoposting/app:/app
+    depends_on:
+      - database
 
   nginx:
     image: nginx:1.13-alpine

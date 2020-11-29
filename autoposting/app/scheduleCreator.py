@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from functools import lru_cache
 
-from app.scheduledb import ScheduleDB
-from app import app, helpers
+from scheduledb import ScheduleDB
+import helpers
 
 
 def print_type(raw_type, week_type=-1):
@@ -30,12 +30,12 @@ def print_week_type(week_type=-1):
 
 
 @lru_cache(maxsize=128)
-def create_schedule_text(tag, day, week_type=-1):
+def create_schedule_text(tag, day, week_type, config):
     result = []
     schedule = ""
     is_empty = True
     try:
-        with ScheduleDB(app.config) as db:
+        with ScheduleDB(config) as db:
             data = db.get_schedule(tag, day, week_type)
 
         schedule += "🔎 | {}: {}\n\n".format(

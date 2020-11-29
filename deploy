@@ -1,7 +1,6 @@
 #!/bin/sh
 
-DB_NAME="bot_db"
-DB_HOST="0.0.0.0"
+DB_HOST="database"
 
 JWT_SECRET_KEY=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)
 
@@ -35,10 +34,14 @@ printf "ADMIN_VK_ID='%s'\n"          "$8" >> config.cfg
 
 cp config.cfg api_server/app/config.cfg
 cp config.cfg vk_bot/app/config.cfg
+cp config.cfg autoposting/app/config.cfg
+
+sed "s/'//g" config.cfg > autoposting/app/config.cfg
+sed -i '1s/^/\[bot\]\n/' autoposting/app/config.cfg
 rm config.cfg
 
-printf "PG_USER=%s\n"                "$1" >> .env
-printf "PG_PASSWORD=%s\n"            "$2" >> .env
-printf "PG_DB=%s\n"                  "$3" >> .env
+printf "PG_DB=%s\n"                 "$1" >> .env
+printf "PG_USER=%s\n"               "$2" >> .env
+printf "PG_PASSWORD=%s\n"           "$3" >> .env
 
 docker-compose up
