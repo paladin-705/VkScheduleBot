@@ -2,21 +2,35 @@ FROM python:3.6-alpine
 
 LABEL maintainer="Sergey Kornev <paladin705@yandex.ru>"
 
-ARG TZ
+ENV TZ="Europe/Moscow"
 
-COPY ./requirements.txt /bot/requirements.txt
-COPY supervisord.conf /etc/
-COPY ./app /bot/app
+ENV DB_NAME=
+ENV DB_USER=
+ENV DB_PASSWORD=
+ENV DB_HOST=
+
+ENV VK_CONFIRMATION_TOKEN=
+ENV VK_API_TOKEN=
+ENV STATISTIC_TOKEN=
+
+ENV WEEK_TYPE=
+
+ENV ADMIN_VK_ID=
+
+WORKDIR /bot
 
 RUN apk update \
     && apk upgrade \
     && apk add tzdata \
-    && cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
-    && apk del tzdata \
-    && apk add git build-base postgresql-dev supervisor \
-    && pip3 install gunicorn \
-    && pip3 install -r /bot/requirements.txt
+    && apk add git build-base postgresql-dev
 
-WORKDIR /bot
+COPY deploy requirements.txt ./
 
-CMD ["/usr/bin/supervisord"]
+RUN pip3 install gunicorn \
+    && pip3 install -r requirements.txt
+
+COPY app ./app
+
+CMD ./deploy ${DB_NAME} ${DB_USER} ${DB_PASSWORD} ${DB_HOST} \
+             ${VK_CONFIRMATION_TOKEN} ${VK_API_TOKEN} \
+             ${WEEK_TYPE} ${STATISTIC_TOKEN} ${ADMIN_VK_ID} ${TZ}

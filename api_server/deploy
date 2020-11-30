@@ -1,0 +1,25 @@
+#!/bin/sh
+
+JWT_SECRET_KEY=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)
+
+> config.cfg
+printf "SCHEDULE_DB_NAME='%s'\n"     "$1" >> config.cfg
+printf "SCHEDULE_DB_USER='%s'\n"     "$2" >> config.cfg
+printf "SCHEDULE_DB_PASSWORD='%s'\n" "$3" >> config.cfg
+printf "SCHEDULE_DB_HOST='%s'\n"     "$4" >> config.cfg
+
+printf "API_DB_NAME='%s'\n"          "$1" >> config.cfg
+printf "API_DB_USER='%s'\n"          "$2" >> config.cfg
+printf "API_DB_PASSWORD='%s'\n"      "$3" >> config.cfg
+printf "API_DB_HOST='%s'\n"          "$4" >> config.cfg
+
+printf "LOG_DIR_PATH='%s'\n"         "./" >> config.cfg
+
+printf "JWT_SECRET_KEY='%s'\n"       "$JWT_SECRET_KEY" >> config.cfg
+
+cp config.cfg app/config.cfg
+rm config.cfg
+
+cp /usr/share/zoneinfo/$5 /etc/localtime && echo $5 > /etc/timezone
+
+gunicorn app:app --workers 4 -b unix:/api/socket/api.sock

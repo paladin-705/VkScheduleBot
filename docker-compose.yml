@@ -17,10 +17,14 @@ services:
 
   api_server:
     image: api_server
+    environment:
+      - DB_NAME=${PG_DB}
+      - DB_USER=${PG_USER}
+      - DB_PASSWORD=${PG_PASSWORD}
+      - DB_HOST=database
+      - TZ=${TZ}
     build:
       context: api_server
-      args:
-        - TZ=${TZ}
     volumes:
       - ./api_server:/api
       - ./api_server/socket:/api/socket
@@ -29,10 +33,19 @@ services:
 
   vk_bot:
     image: vk_bot
+    environment:
+      - DB_NAME=${PG_DB}
+      - DB_USER=${PG_USER}
+      - DB_PASSWORD=${PG_PASSWORD}
+      - DB_HOST=database
+      - VK_CONFIRMATION_TOKEN=${VK_CONFIRMATION_TOKEN}
+      - VK_API_TOKEN=${VK_API_TOKEN}
+      - STATISTIC_TOKEN=${STATISTIC_TOKEN}
+      - WEEK_TYPE=${WEEK_TYPE}
+      - ADMIN_VK_ID=${ADMIN_VK_ID}
+      - TZ=${TZ}
     build:
       context: vk_bot
-      args:
-        - TZ=${TZ}
     volumes:
       - ./vk_bot:/bot
       - ./vk_bot/socket:/bot/socket
@@ -41,10 +54,18 @@ services:
 
   autoposting:
     image: autoposting
+    environment:
+      - DB_NAME=${PG_DB}
+      - DB_USER=${PG_USER}
+      - DB_PASSWORD=${PG_PASSWORD}
+      - DB_HOST=database
+      - VK_API_TOKEN=${VK_API_TOKEN}
+      - STATISTIC_TOKEN=${STATISTIC_TOKEN}
+      - WEEK_TYPE=${WEEK_TYPE}
+      - ADMIN_VK_ID=${ADMIN_VK_ID}
+      - TZ=${TZ}
     build:
       context: autoposting
-      args:
-        - TZ=${TZ}
     volumes:
       - ./autoposting/app:/app
     depends_on:
