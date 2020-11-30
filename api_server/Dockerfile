@@ -24,4 +24,4 @@ RUN pip3 install gunicorn \
 
 COPY app ./app
 
-ENTRYPOINT ["sh", "./deploy", "${DB_NAME}", "${DB_USER}", "${DB_PASSWORD}", "${DB_HOST}", "${TZ}"] 
+CMD ./deploy deploy ${DB_NAME} ${DB_USER} ${DB_PASSWORD} ${DB_HOST} ${TZ}
