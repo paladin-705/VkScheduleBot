@@ -36,7 +36,8 @@ class OrganizationApi(MethodView):
                 data.append(del_end_space(row[0]))
 
             return make_response(jsonify(data), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('OrganizationApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail"]), 400)
 
     @jwt_required
@@ -46,7 +47,8 @@ class OrganizationApi(MethodView):
             with ScheduleDB(app.config) as db:
                 db.delete_organization(organization)
             return make_response(jsonify({}), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('OrganizationApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
 
 bp.add_url_rule('/<organization>', view_func=OrganizationApi.as_view('organization_api'))

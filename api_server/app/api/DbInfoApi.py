@@ -37,7 +37,7 @@ class DbInfoApi(MethodView):
 
             return make_response(jsonify(data), 200)
         except BaseException as e:
-            print(str(e))
+            app.logger.warning('DbInfoApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail"]), 400)
 
     @jwt_required
@@ -47,7 +47,8 @@ class DbInfoApi(MethodView):
             with ScheduleDB(app.config) as db:
                 db.delete_all_organizations()
             return make_response(jsonify({}), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('DbInfoApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
 
 bp.add_url_rule('/', view_func=DbInfoApi.as_view('db_info__api'))

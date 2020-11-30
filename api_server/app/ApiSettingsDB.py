@@ -1,6 +1,5 @@
-import logging
+from flask import current_app as app
 import psycopg2
-from datetime import datetime
 
 
 class ApiSettingsDB:
@@ -11,11 +10,6 @@ class ApiSettingsDB:
             password=config["API_DB_PASSWORD"],
             host=config["API_DB_HOST"])
         self.cur = self.con.cursor()
-
-        logging.basicConfig(format='%(asctime)-15s [ %(levelname)s ] %(message)s',
-                            filemode='a',
-                            filename=config["LOG_DIR_PATH"] + "userdb-log-{0}.log".format(datetime.now().strftime("%Y-%m")))
-        self.logger = logging.getLogger('db-logger')
 
     def __enter__(self):
         return self
@@ -31,7 +25,7 @@ class ApiSettingsDB:
             self.con.commit()
             return True
         except BaseException as e:
-            self.logger.warning('Add user failed. Error: {0}. Data: username={1}'.format(
+            app.logger.warning('Add user failed. Error: {0}. Data: username={1}'.format(
                 str(e), username))
             return False
 
@@ -41,7 +35,7 @@ class ApiSettingsDB:
             self.cur.execute("SELECT id, username, pw_hash FROM api_users WHERE username = (%s)", (username, ))
             data = self.cur.fetchone()
         except BaseException as e:
-            self.logger.warning('Select user failed. Error: {0}. Data: username={1}'.format(str(e), username))
+            app.logger.warning('Select user failed. Error: {0}. Data: username={1}'.format(str(e), username))
             raise e
         finally:
             return data

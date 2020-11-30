@@ -59,7 +59,8 @@ class ExamsApi(MethodView):
                 })
 
             return make_response(jsonify(data), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('ExamsApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail_unknown"]), 400)
 
     @jwt_required
@@ -96,7 +97,8 @@ class ExamsApi(MethodView):
                         if not db.add_exam(tag, title, classroom, lecturer, day):
                             answer['failed'].append(exam)
             return make_response(jsonify(answer), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('ExamsApi post: {}'.format(str(e)))
             return make_response(jsonify(self.error["postFail"]), 400)
 
     @jwt_required
@@ -115,7 +117,8 @@ class ExamsApi(MethodView):
                 db.delete_exams(tag)
 
             return make_response(jsonify({}), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('ExamsApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
 
 bp.add_url_rule('/<organization>/<faculty>/<group>/exams', view_func=ExamsApi.as_view('exams_api'))

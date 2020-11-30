@@ -63,7 +63,8 @@ class ScheduleApi(MethodView):
                 })
 
             return make_response(jsonify(data), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('ScheduleApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail"]), 400)
 
     @jwt_required
@@ -114,7 +115,8 @@ class ScheduleApi(MethodView):
                                              time_start, time_end, title, classroom, lecturer):
                             answer['failed'].append(lecture)
             return make_response(jsonify(answer), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('ScheduleApi post: {}'.format(str(e)))
             return make_response(jsonify(self.error["postFail"]), 400)
 
     @jwt_required
@@ -133,7 +135,8 @@ class ScheduleApi(MethodView):
                 db.delete_schedule(tag)
 
             return make_response(jsonify({}), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('ScheduleApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
 
 bp.add_url_rule('/<organization>/<faculty>/<group>/schedule', view_func=ScheduleApi.as_view('schedule_api'))

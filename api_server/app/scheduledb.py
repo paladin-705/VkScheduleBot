@@ -1,7 +1,6 @@
+from flask import current_app as app
 import hashlib
-import logging
 import psycopg2
-from datetime import datetime
 
 organization_field_length = 15
 faculty_field_length = 10
@@ -16,13 +15,6 @@ class ScheduleDB:
             password=config["SCHEDULE_DB_PASSWORD"],
             host=config["SCHEDULE_DB_HOST"])
         self.cur = self.con.cursor()
-
-        logging.basicConfig(format='%(asctime)-15s [ %(levelname)s ] %(message)s',
-                            filemode='a',
-                            filename=config["LOG_DIR_PATH"] + "schedule-log-{0}.log".format(
-                                datetime.now().strftime("%Y-%m"))
-                            )
-        self.logger = logging.getLogger('db-logger')
 
     def __enter__(self):
         return self
@@ -48,7 +40,7 @@ class ScheduleDB:
             self.con.commit()
             return True
         except BaseException as e:
-            self.logger.warning('Add to schedule failed. Error: {0}. Data:\
+            app.logger.warning('Add to schedule failed. Error: {0}. Data:\
                             tag={1},\
                             day={2},\
                             number={3},\
@@ -63,12 +55,13 @@ class ScheduleDB:
 
     def add_exam(self, tag, title, classroom, lecturer, day):
         try:
-            self.cur.execute("INSERT INTO examinations(tag, title, classroom, lecturer, day) VALUES(%s,%s,%s,%s,to_date(%s, 'DD.MM.YYYY'));",
+            self.cur.execute("INSERT INTO examinations(tag, title, classroom, lecturer, day) "
+                             "VALUES(%s,%s,%s,%s,to_date(%s, 'DD.MM.YYYY'));",
                              (tag, title, classroom, lecturer, day))
             self.con.commit()
             return tag
         except BaseException as e:
-            self.logger.warning("Add exam failed. Error: {0}. Data:\
+            app.logger.warning("Add exam failed. Error: {0}. Data:\
                             tag={1},\
                             title={2},\
                             classroom={3},\
@@ -85,7 +78,7 @@ class ScheduleDB:
             self.con.commit()
             return tag
         except BaseException as e:
-            self.logger.warning("Add organization failed. Error: {0}. Data:\
+            app.logger.warning("Add organization failed. Error: {0}. Data:\
                             organization={1},\
                             faculty={2},\
                             group={3},\
@@ -95,10 +88,11 @@ class ScheduleDB:
     def get_exams(self, tag):
         exams = None
         try:
-            self.cur.execute("SELECT day, title, classroom, lecturer  FROM examinations WHERE tag = (%s) ORDER BY day", (tag, ))
+            self.cur.execute("SELECT day, title, classroom, lecturer FROM examinations "
+                             "WHERE tag = (%s) ORDER BY day", (tag, ))
             exams = self.cur.fetchall()
         except BaseException as e:
-            self.logger.warning('Select exams failed. Error: {0}. Data: tag={1}'.format(str(e), tag))
+            app.logger.warning('Select exams failed. Error: {0}. Data: tag={1}'.format(str(e), tag))
             raise e
         finally:
             return exams
@@ -110,7 +104,7 @@ class ScheduleDB:
                                 WHERE tag = (%s) ORDER BY day ASC, number ASC', (tag, ))
             data = self.cur.fetchall()
         except BaseException as e:
-            self.logger.warning('Select schedule failed. Error: {0}. Data: tag={1}'.format(
+            app.logger.warning('Select schedule failed. Error: {0}. Data: tag={1}'.format(
                 str(e), tag))
             raise Exception
         finally:
@@ -123,7 +117,7 @@ class ScheduleDB:
                              "ORDER BY organization")
             organizations = self.cur.fetchall()
         except BaseException as e:
-            self.logger.warning('Select organization failed. Error: {0}'.format(str(e)))
+            app.logger.warning('Select organization failed. Error: {0}'.format(str(e)))
             raise e
         finally:
             return organizations
@@ -135,7 +129,7 @@ class ScheduleDB:
                              "WHERE organization = %s ORDER BY faculty", (organization,))
             faculties = self.cur.fetchall()
         except BaseException as e:
-            self.logger.warning('Select faculty failed. Error: {0}. Data: organization={1}'.format(
+            app.logger.warning('Select faculty failed. Error: {0}. Data: organization={1}'.format(
                 str(e), organization))
             raise e
         finally:
@@ -149,7 +143,7 @@ class ScheduleDB:
                              (organization, faculty))
             group = self.cur.fetchall()
         except BaseException as e:
-            self.logger.warning('Select group failed. Error: {0}. Data: organization={1} faculty={2}'.format(
+            app.logger.warning('Select group failed. Error: {0}. Data: organization={1} faculty={2}'.format(
                 str(e), organization, faculty))
             raise e
         finally:
@@ -163,7 +157,7 @@ class ScheduleDB:
                              (organization, faculty, group))
             data = self.cur.fetchone()
         except BaseException as e:
-            self.logger.warning('Select group failed. Error: {0}. '
+            app.logger.warning('Select group failed. Error: {0}. '
                                 'Data: organization={1} faculty={2} group={3}'.format(
                 str(e), organization, faculty, group))
             raise e
@@ -174,14 +168,14 @@ class ScheduleDB:
         try:
             self.cur.execute("DELETE FROM organizations")
         except BaseException as e:
-            self.logger.warning('Delete all organization failed. Error: {0}'.format(str(e)))
+            app.logger.warning('Delete all organization failed. Error: {0}'.format(str(e)))
             raise e
 
     def delete_organization(self, organization):
         try:
             self.cur.execute("DELETE FROM organizations WHERE organization = %s", (organization,))
         except BaseException as e:
-            self.logger.warning('Delete organization failed. Error: {0}. Data: organization={1}'.format(
+            app.logger.warning('Delete organization failed. Error: {0}. Data: organization={1}'.format(
                 str(e), organization))
             raise e
 
@@ -190,7 +184,7 @@ class ScheduleDB:
             self.cur.execute("DELETE FROM organizations WHERE organization = %s AND faculty = %s",
                              (organization, faculty))
         except BaseException as e:
-            self.logger.warning('Delete faculty failed. Error: {0}. Data: organization={1} faculty={2}'.format(
+            app.logger.warning('Delete faculty failed. Error: {0}. Data: organization={1} faculty={2}'.format(
                 str(e), organization, faculty))
             raise e
 
@@ -199,7 +193,7 @@ class ScheduleDB:
             self.cur.execute("DELETE FROM organizations WHERE organization = %s AND faculty = %s AND studgroup = %s",
                              (organization, faculty, group))
         except BaseException as e:
-            self.logger.warning('Delete group failed. Error: {0}. Data: organization={1} faculty={2} group ={3}'.format(
+            app.logger.warning('Delete group failed. Error: {0}. Data: organization={1} faculty={2} group ={3}'.format(
                 str(e), organization, faculty, group))
             raise e
 
@@ -207,7 +201,7 @@ class ScheduleDB:
         try:
             self.cur.execute("DELETE FROM schedule WHERE tag = (%s)", (tag,))
         except BaseException as e:
-            self.logger.warning('Delete schedule failed. Error: {0}. Data: tag={1}'.format(
+            app.logger.warning('Delete schedule failed. Error: {0}. Data: tag={1}'.format(
                 str(e), tag))
             raise e
 
@@ -215,5 +209,5 @@ class ScheduleDB:
         try:
             self.cur.execute("DELETE FROM examinations WHERE tag = (%s)", [str(tag)])
         except BaseException as e:
-            self.logger.warning('Delete exams failed. Error: {0}. Data: tag={1}'.format(str(e), tag))
+            app.logger.warning('Delete exams failed. Error: {0}. Data: tag={1}'.format(str(e), tag))
             raise e

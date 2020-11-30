@@ -62,7 +62,8 @@ def login():
             'refresh_token': create_refresh_token(identity=username)
         }
         return make_response(jsonify(ret), 200)
-    except:
+    except BaseException as e:
+        app.logger.warning('login: {}'.format(str(e)))
         return make_response(jsonify(error["unknown_error"]), 400)
 
 

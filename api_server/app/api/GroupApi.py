@@ -40,7 +40,8 @@ class GroupApi(MethodView):
 
             tag = db_data[1]
             return make_response(jsonify(tag), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('GroupApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail"]), 400)
 
     @jwt_required
@@ -59,7 +60,8 @@ class GroupApi(MethodView):
                 return make_response(jsonify(tag), 200)
             else:
                 return make_response(jsonify(self.error["postFail_unknown"]), 400)
-        except:
+        except BaseException as e:
+            app.logger.warning('GroupApi post: {}'.format(str(e)))
             return make_response(jsonify(self.error["postFail_unknown"]), 400)
 
     @jwt_required
@@ -69,7 +71,8 @@ class GroupApi(MethodView):
             with ScheduleDB(app.config) as db:
                 db.delete_group(organization, faculty, group)
             return make_response(jsonify({}), 200)
-        except:
+        except BaseException as e:
+            app.logger.warning('GroupApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
 
 bp.add_url_rule('/<organization>/<faculty>/<group>', view_func=GroupApi.as_view('group_api'))

@@ -1,6 +1,5 @@
 from flask import current_app as app
 import hashlib
-import logging
 import psycopg2
 from datetime import datetime
 
