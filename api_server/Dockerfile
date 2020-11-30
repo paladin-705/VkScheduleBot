@@ -19,8 +19,9 @@ RUN apk update \
 COPY deploy requirements.txt ./
 
 RUN pip3 install gunicorn \
-    && pip3 install -r requirements.txt
+    && pip3 install -r requirements.txt \
+    && chmod +x deploy
 
 COPY app ./app
 
-ENTRYPOINT ["sh", "deploy", ${DB_NAME}, ${DB_USER}, ${DB_PASSWORD}, ${DB_HOST}, ${TZ}]
+CMD ./deploy deploy ${DB_NAME}, ${DB_USER}, ${DB_PASSWORD}, ${DB_HOST}, ${TZ}
