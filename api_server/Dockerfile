@@ -24,4 +24,4 @@ RUN pip3 install gunicorn \
 
 COPY app ./app
 
-CMD ./deploy ${DB_NAME}, ${DB_USER}, ${DB_PASSWORD}, ${DB_HOST}, ${TZ}
+ENTRYPOINT ["deploy", "${DB_NAME}", "${DB_USER}", "${DB_PASSWORD}", "${DB_HOST}", "${TZ}"] 
