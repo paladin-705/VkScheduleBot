@@ -4,6 +4,9 @@ from app import messageHandler
 import os
 from app import vkapi
 
+app = Flask(__name__)
+
+app.config.from_pyfile(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.cfg'), silent=True)
 
 dictConfig({
     'version': 1,
@@ -12,7 +15,7 @@ dictConfig({
     }},
     'handlers': {'file': {
         'class': 'logging.handlers.RotatingFileHandler',
-        'filename': 'log/vk_bot.log',
+        'filename': app.config['LOG_DIR_PATH'] + 'vk_bot.log',
         'formatter': 'default',
         'maxBytes': 4096,
         'backupCount': 5
@@ -22,11 +25,6 @@ dictConfig({
         'handlers': ['file']
     }
 })
-
-
-app = Flask(__name__)
-
-app.config.from_pyfile(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.cfg'), silent=True)
 
 
 @app.route('/bmstu_bot/', methods=['POST'])

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+> .env
 printf "PG_DB=%s\n"                 "$1" >> .env
 printf "PG_USER=%s\n"               "$2" >> .env
 printf "PG_PASSWORD=%s\n"           "$3" >> .env
