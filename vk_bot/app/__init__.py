@@ -12,7 +12,7 @@ dictConfig({
     }},
     'handlers': {'file': {
         'class': 'logging.handlers.RotatingFileHandler',
-        'filename': 'vk_bot.log',
+        'filename': 'log/vk_bot.log',
         'formatter': 'default',
         'maxBytes': 4096,
         'backupCount': 5
