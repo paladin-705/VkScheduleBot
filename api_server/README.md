@@ -5,6 +5,8 @@
 
 Docker Hub: [paladin705/vk_schedule_bot_api](https://hub.docker.com/r/paladin705/vk_schedule_bot_api)
 
+Программа для взаимодействия с сервером: [api_client](../api_client)
+
 ## Зависимости
 Модуль использует СУБД PostgreSQL для хранения данных. Адрес: `http://<адрес сервера>/api/`.
 
@@ -37,5 +39,5 @@ docker run \
 * `TZ` - Часовой пояс. По умолчанию `Europe/Moscow`
 
 ## Работа с API
-
+Сервер реализует REST API для взаимодействия с базой данных бота. С API можно взаимодействовать не только с помощью программы [api_client](../api_client), но и с помощью http-запросов.
 
