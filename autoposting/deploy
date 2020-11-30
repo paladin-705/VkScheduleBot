@@ -1,6 +1,6 @@
 #!/bin/sh
 
-printf "\[%s\]"                      "bot" > config.cfg
+printf "[%s]\n"                      "bot" > config.cfg
 
 printf "DB_NAME=%s\n"                "$1" >> config.cfg
 printf "DB_USER=%s\n"                "$2" >> config.cfg
