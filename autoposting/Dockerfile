@@ -16,6 +16,8 @@ ENV WEEK_TYPE=
 
 ENV ADMIN_VK_ID=
 
+ENV DB_USER_TAG=
+
 WORKDIR /app
 
 RUN apk update \
@@ -32,4 +34,4 @@ COPY app ./
 
 CMD ./deploy ${DB_NAME} ${DB_USER} ${DB_PASSWORD} ${DB_HOST} \
              ${VK_API_TOKEN} ${WEEK_TYPE} \
-             ${STATISTIC_TOKEN} ${ADMIN_VK_ID} ${TZ}
+             ${STATISTIC_TOKEN} ${ADMIN_VK_ID} ${DB_USER_TAG} ${TZ}

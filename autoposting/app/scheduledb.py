@@ -23,6 +23,8 @@ class ScheduleDB:
                                 datetime.now().strftime("%Y-%m")))
         self.logger = logging.getLogger('db-logger')
 
+        self.user_tag = config.get('bot', 'DB_USER_TAG')
+
     def __enter__(self):
         return self
 
@@ -35,18 +37,18 @@ class ScheduleDB:
             if auto_posting_time is not None and is_today is not None:
                 self.cur.execute('SELECT id, "scheduleTag" FROM users '
                                  'WHERE auto_posting_time = %s AND is_today = %s  AND type = (%s)',
-                                 (auto_posting_time, is_today, 'vk'))
+                                 (auto_posting_time, is_today, self.user_tag ))
                 return self.cur.fetchall()
             elif auto_posting_time is not None:
                 self.cur.execute('SELECT id, "scheduleTag" FROM users WHERE auto_posting_time = %s AND type = (%s)',
-                                 (auto_posting_time, 'vk'))
+                                 (auto_posting_time, self.user_tag))
                 return self.cur.fetchall()
             elif is_today is not None:
                 self.cur.execute('SELECT id, "scheduleTag" FROM users WHERE is_today = %s AND type = (%s)',
-                                 (is_today, 'vk'))
+                                 (is_today, self.user_tag))
                 return self.cur.fetchall()
             else:
-                self.cur.execute('SELECT id, "scheduleTag" FROM users WHERE type = (%s)', ['vk'])
+                self.cur.execute('SELECT id, "scheduleTag" FROM users WHERE type = (%s)', [self.user_tag])
                 return self.cur.fetchall()
         except BaseException as e:
             app.logger.warning('Select users failed. Error: {0}. auto_posting_time={1}'.format(

@@ -18,6 +18,8 @@ class ScheduleDB:
         )
         self.cur = self.con.cursor()
 
+        self.user_tag = config["DB_USER_TAG"]
+
     def __enter__(self):
         return self
 
@@ -89,7 +91,7 @@ class ScheduleDB:
     def add_report(self, cid, report):
         try:
             self.cur.execute('INSERT INTO reports (type, user_id, report, date) VALUES(%s, %s, %s, %s)',
-                             ('vk', cid, report, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                             (self.user_tag, cid, report, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
             self.con.commit()
             return True
         except BaseException as e:
@@ -98,7 +100,8 @@ class ScheduleDB:
 
     def add_user(self, cid, name, username, tag):
         try:
-            self.cur.execute('INSERT INTO users VALUES(%s,%s,%s,%s,%s,null,null)', ('vk', cid, name, username, tag))
+            self.cur.execute('INSERT INTO users VALUES(%s,%s,%s,%s,%s,null,null)',
+                             (self.user_tag, cid, name, username, tag))
             self.con.commit()
             return True
         except BaseException as e:
@@ -108,7 +111,8 @@ class ScheduleDB:
 
     def update_user(self, cid, name, username, tag):
         try:
-            self.cur.execute('UPDATE users SET "scheduleTag" = (%s) WHERE id = (%s) AND type = (%s)', (tag, cid, 'vk'))
+            self.cur.execute('UPDATE users SET "scheduleTag" = (%s) WHERE id = (%s) AND type = (%s)',
+                             (tag, cid, self.user_tag))
             self.con.commit()
             return True
         except BaseException as e:
@@ -118,7 +122,8 @@ class ScheduleDB:
 
     def find_user(self, cid):
         try:
-            self.cur.execute('SELECT "scheduleTag" FROM users WHERE id = (%s) AND type = (%s)', (cid, 'vk'))
+            self.cur.execute('SELECT "scheduleTag" FROM users WHERE id = (%s) AND type = (%s)',
+                             (cid, self.user_tag))
             return self.cur.fetchone()
         except BaseException as e:
             app.logger.warning('Select user failed. Error: {0}. Data: cid={1}'.format(str(e), cid))
@@ -129,18 +134,18 @@ class ScheduleDB:
             if auto_posting_time is not None and is_today is not None:
                 self.cur.execute('SELECT id, "scheduleTag" FROM users '
                                  'WHERE auto_posting_time = %s AND is_today = %s  AND type = (%s)',
-                                 (auto_posting_time, is_today, 'vk'))
+                                 (auto_posting_time, is_today, self.user_tag))
                 return self.cur.fetchall()
             elif auto_posting_time is not None:
                 self.cur.execute('SELECT id, "scheduleTag" FROM users WHERE auto_posting_time = %s AND type = (%s)',
-                                 (auto_posting_time, 'vk'))
+                                 (auto_posting_time, self.user_tag))
                 return self.cur.fetchall()
             elif is_today is not None:
                 self.cur.execute('SELECT id, "scheduleTag" FROM users WHERE is_today = %s AND type = (%s)',
-                                 (is_today, 'vk'))
+                                 (is_today, self.user_tag))
                 return self.cur.fetchall()
             else:
-                self.cur.execute('SELECT id, "scheduleTag" FROM users WHERE type = (%s)', ['vk'])
+                self.cur.execute('SELECT id, "scheduleTag" FROM users WHERE type = (%s)', [self.user_tag])
                 return self.cur.fetchall()
         except BaseException as e:
             app.logger.warning('Select users failed. Error: {0}. auto_posting_time={1}'.format(
@@ -154,7 +159,7 @@ class ScheduleDB:
                              'users.is_today from organizations, users '
                              'where organizations.tag = (select "scheduleTag" '
                              'from users where id = (%s) and type = (%s)) '
-                             'and users.id = (%s) and users.type = (%s)', (cid, 'vk', cid, 'vk'))
+                             'and users.id = (%s) and users.type = (%s)', (cid, self.user_tag, cid, self.user_tag))
             return self.cur.fetchone()
         except BaseException as e:
             app.logger.warning('Select user failed. Error: {0}. Data: cid={1}'.format(str(e), cid))
@@ -249,7 +254,7 @@ class ScheduleDB:
         try:
             self.cur.execute('UPDATE users SET auto_posting_time = %s, is_today = %s \
             WHERE id = %s AND type = (%s)',
-                             (time, is_today, cid, 'vk'))
+                             (time, is_today, cid, self.user_tag))
             self.con.commit()
             return True
         except BaseException as e:

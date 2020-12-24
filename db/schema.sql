@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS examinations
 
 CREATE TABLE IF NOT EXISTS users
 (
-  type character(2),
+  type character(3),
   id integer,
   name character varying(30),
   username character varying(30),

@@ -12,6 +12,8 @@ printf "STATISTIC_TOKEN=%s\n"       "$6" >> .env
 printf "WEEK_TYPE=%u\n"             "$7" >> .env
 printf "ADMIN_VK_ID=%s\n"           "$8" >> .env
 
+printf "DB_USER_TAG=%s\n"           "$9" >> .env
+
 printf "TZ=%s\n"                    "Europe/Moscow" >> .env
 
 docker-compose up
