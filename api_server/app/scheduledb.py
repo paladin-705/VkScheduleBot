@@ -164,8 +164,8 @@ class ScheduleDB:
         finally:
             return data
 
-    def update_organization(self, organization, faculty, group, old_tag):
-        new_tag = self.create_tag(organization, faculty, group)
+    def update_organization(self, new_organization, new_faculty, new_group, old_tag):
+        new_tag = self.create_tag(new_organization, new_faculty, new_group)
 
         try:
             self.cur.execute("UPDATE organizations SET "
@@ -174,7 +174,7 @@ class ScheduleDB:
                              "studgroup = %s, "
                              "tag = %s"
                              "WHERE tag = %s;",
-                             (organization, faculty, group, new_tag, old_tag))
+                             (new_organization, new_faculty, new_group, new_tag, old_tag))
             self.con.commit()
             return new_tag
         except BaseException as e:
