@@ -19,15 +19,15 @@ error = {
         "message": "Missing username parameter"
     },
     "missing_password": {
-        "errorCode": 703,
+        "error_code": 703,
         "errorMessage": "Missing password parameter"
     },
     "bad_login": {
-        "errorCode": 704,
+        "error_code": 704,
         "errorMessage": "Bad username or password"
     },
     "unknown_error": {
-        "errorCode": 705,
+        "error_code": 705,
         "errorMessage": "Unknown error"
     }
 }

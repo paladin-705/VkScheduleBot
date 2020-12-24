@@ -164,6 +164,27 @@ class ScheduleDB:
         finally:
             return data
 
+    def update_organization(self, organization, faculty, group, old_tag):
+        new_tag = self.create_tag(organization, faculty, group)
+
+        try:
+            self.cur.execute("UPDATE organizations SET "
+                             "organization = %s, "
+                             "faculty = %s, "
+                             "studgroup = %s, "
+                             "tag = %s"
+                             "WHERE tag = %s;",
+                             (organization, faculty, group, new_tag, old_tag))
+            self.con.commit()
+            return new_tag
+        except BaseException as e:
+            app.logger.warning("Update organization failed. Error: {0}. Data:\
+                            organization={1},\
+                            faculty={2},\
+                            group={3},\
+                            old_tag={4}\
+                            new_tag={5}".format(str(e), organization, faculty, group, old_tag, new_tag))
+
     def delete_all_organizations(self):
         try:
             self.cur.execute("DELETE FROM organizations")
