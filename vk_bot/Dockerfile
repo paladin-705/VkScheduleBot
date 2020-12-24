@@ -19,6 +19,8 @@ ENV ADMIN_VK_ID=
 
 ENV DB_USER_TAG=
 
+ENV FLASK_ROUTE_PATH=
+
 WORKDIR /bot
 
 RUN apk update \
@@ -36,4 +38,5 @@ COPY app ./app
 
 CMD ./deploy ${DB_NAME} ${DB_USER} ${DB_PASSWORD} ${DB_HOST} \
              ${VK_CONFIRMATION_TOKEN} ${VK_API_TOKEN} \
-             ${WEEK_TYPE} ${STATISTIC_TOKEN} ${ADMIN_VK_ID} ${DB_USER_TAG} ${TZ}
+             ${WEEK_TYPE} ${STATISTIC_TOKEN} ${ADMIN_VK_ID} \
+             ${DB_USER_TAG} ${FLASK_ROUTE_PATH} ${TZ}

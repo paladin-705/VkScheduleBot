@@ -27,7 +27,7 @@ dictConfig({
 })
 
 
-@app.route('/bmstu_bot/', methods=['POST'])
+@app.route(app.config['FLASK_ROUTE_PATH'], methods=['POST'])
 def processing():
     try:
         data = json.loads(request.data)

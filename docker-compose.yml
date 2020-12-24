@@ -44,6 +44,7 @@ services:
       - WEEK_TYPE=${WEEK_TYPE}
       - ADMIN_VK_ID=${ADMIN_VK_ID}
       = DB_USER_TAG=${DB_USER_TAG}
+      = FLASK_ROUTE_PATH=${FLASK_ROUTE_PATH}
       - TZ=${TZ}
     build:
       context: vk_bot
