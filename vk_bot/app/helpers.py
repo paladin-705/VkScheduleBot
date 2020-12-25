@@ -199,11 +199,10 @@ def get_settings_keyboard(is_registered):
 
     if is_registered:
         button1_1 = create_button_positive('Включить рассылку', {'auto_posting_on': ''})
+        button1_2 = create_button_negative('Отключить рассылку')
     else:
         button1_1 = create_button_positive('Регистрация', {'registration': 'reg:stage 1:'})
-
-    button1_2 = create_button_negative('Отключить рассылку')
-
+    
     button2_1 = create_button_negative('Назад')
     
     if is_registered:
