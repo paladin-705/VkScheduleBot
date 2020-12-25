@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS schedule
   "startTime" time without time zone,
   "endTime" time without time zone,
   title character varying(100),
-  classroom character varying(50),
-  lecturer character varying(50),
+  classroom character varying(100),
+  lecturer character varying(100),
   PRIMARY KEY (tag, day, number, type),
   CONSTRAINT schedule_fkey FOREIGN KEY (tag)
 	REFERENCES organizations (tag) MATCH SIMPLE
@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS examinations
 (
   tag character(30),
   title character varying(100),
-  classroom character varying(50),
-  lecturer character varying(50),
+  classroom character varying(100),
+  lecturer character varying(100),
   day date,
   CONSTRAINT examinations_fkey FOREIGN KEY (tag)
 	REFERENCES organizations (tag) MATCH SIMPLE
