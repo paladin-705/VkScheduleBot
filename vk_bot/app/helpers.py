@@ -205,8 +205,12 @@ def get_settings_keyboard(is_registered):
     button1_2 = create_button_negative('Отключить рассылку')
 
     button2_1 = create_button_negative('Назад')
-
-    buttons.append([button1_1, button1_2])
+    
+    if is_registered:
+        buttons.append([button1_1, button1_2])
+    else:
+        buttons.append([button1_1])
+    
     buttons.append([button2_1])
 
     return json.dumps(
