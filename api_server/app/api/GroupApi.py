@@ -105,7 +105,7 @@ class GroupApi(MethodView):
             with ScheduleDB(app.config) as db:
                 db_data = db.get_group(organization, faculty, group)
 
-                if db_data is not None:
+                if db_data is None:
                     return make_response(jsonify(self.error["putFail_unknown"]), 400)
 
                 old_tag = db_data[1]
