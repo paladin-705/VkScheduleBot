@@ -2,6 +2,7 @@
 from menu_parse import menu_parse_schedule, menu_parse_exams
 from menu_get import menu_get_org_structure, menu_get_schedule, menu_get_exams
 from menu_add import menu_add_schedule, menu_add_exams, menu_add_group
+from menu_update import menu_update_group, menu_update_groups_number
 from menu_delete import (menu_delete_all_orgs, menu_delete_org, menu_delete_faculty,
                          menu_delete_group, menu_delete_group_schedule, menu_delete_group_exams)
 
@@ -22,15 +23,19 @@ def show_menu():
     print('7.\tЗагрузка расписания экзаменов в БД из json файла')
     print('8.\tДобавление группы в БД')
 
+    print('Обновление данных:')
+    print('9.\tОбновление названия группы')
+    print('10.\tОбновление названий групп (автоматическое увеличение номера группы)')
+
     print('Удаление данных:')
-    print('9.\tУдаление расписания занятий')
-    print('10.\tУдаление расписания экзаменов')
-    print('11.\tУдаление группы(преподавателя)')
-    print('12.\tУдаление курса(кафедры)')
-    print('13.\tУдаление организации')
-    print('14.\tУдаление всех организаций')
+    print('11.\tУдаление расписания занятий')
+    print('12.\tУдаление расписания экзаменов')
+    print('13.\tУдаление группы(преподавателя)')
+    print('14.\tУдаление курса(кафедры)')
+    print('15.\tУдаление организации')
+    print('16.\tУдаление всех организаций')
     print()
-    print('15.\tВыход')
+    print('17.\tВыход')
 
     try:
         menu_type = int(input('Введите номер пункта: '))
@@ -71,19 +76,24 @@ if __name__ == '__main__':
                 menu_add_group(ip, port, username, password)
 
             elif menu_type == 9:
-                menu_delete_group_schedule(ip, port, username, password)
+                menu_update_group(ip, port, username, password)
             elif menu_type == 10:
-                menu_delete_group_exams(ip, port, username, password)
+                menu_update_groups_number(ip, port, username, password)
+
             elif menu_type == 11:
-                menu_delete_group(ip, port, username, password)
+                menu_delete_group_schedule(ip, port, username, password)
             elif menu_type == 12:
-                menu_delete_faculty(ip, port, username, password)
+                menu_delete_group_exams(ip, port, username, password)
             elif menu_type == 13:
-                menu_delete_org(ip, port, username, password)
+                menu_delete_group(ip, port, username, password)
             elif menu_type == 14:
+                menu_delete_faculty(ip, port, username, password)
+            elif menu_type == 15:
+                menu_delete_org(ip, port, username, password)
+            elif menu_type == 16:
                 menu_delete_all_orgs(ip, port, username, password)
 
-            elif menu_type == 15:
+            elif menu_type == 17:
                 break
             else:
                 print('Неопознанная команда')

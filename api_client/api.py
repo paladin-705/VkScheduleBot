@@ -163,6 +163,27 @@ def add_exams(ip, port, access_token, org, faculty, group, schedule, timeout=120
     return json.loads(res.text)
 
 
+def update_group(ip, port, access_token,
+                 old_org, old_faculty, old_group,
+                 new_org, new_faculty, new_group,
+                 timeout=120):
+    data = {
+        'new_organization': new_org,
+        'new_faculty': new_faculty,
+        'new_group': new_group
+    }
+    header = 'Bearer {}'.format(access_token)
+    link = 'http://{}:{}/api/v1/{}/{}/{}/exams'.format(ip, port, old_org, old_faculty, old_group)
+    res = requests.put(link, headers={'Authorization': header}, json=data, timeout=timeout)
+
+    if res.status_code != 200:
+        if res.status_code == 401:
+            raise AccessDeniedError(str(res.text))
+        else:
+            raise ApiError(str(res.text))
+    return json.loads(res.text)
+
+
 def delete_all_orgs(ip, port, access_token, timeout=120):
     header = 'Bearer {}'.format(access_token)
     link = 'http://{}:{}/api/v1/'.format(ip, port)

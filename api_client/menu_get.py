@@ -54,13 +54,13 @@ def menu_get_schedule(ip, port, username, password):
 
 
 def menu_get_exams(ip, port, username, password):
-    org, faculty, group =  input_org_info()
+    org, faculty, group = input_org_info()
     access_token, refresh_token = login(ip, port, username, password)
     schedule = get_exams(ip, port, access_token, org, faculty, group)
 
     data = {
-        org:{
-            faculty:{
+        org: {
+            faculty: {
                 group: schedule
             }
         }
