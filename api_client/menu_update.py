@@ -72,14 +72,15 @@ def menu_update_groups_number(ip, port, username, password, login_attempt=10):
                             items = result.groups()
 
                             if len(items) == 2 and items[0].isdigit() and 2 <= len(items[0]) <= 3:
-                                group_number = items[0][0]
                                 if len(items[0]) == 2:
-                                    next_semester_number = int(items[0][1]) + 1
+                                    next_semester_number = int(items[0][0]) + 1
+                                    group_number = items[0][1]
                                 elif len(items[0]) == 3:
-                                    next_semester_number = int(items[0][1:2]) + 1
+                                    next_semester_number = int(items[0][0:1]) + 1
+                                    group_number = items[0][2]
 
                                 new_group = '{}-{}{}{}'.format(group_data[0],
-                                                               group_number, next_semester_number, items[1])
+                                                               next_semester_number, group_number, items[1])
 
                                 # Бакалавриат
                                 if items[1] == 'Б' and next_semester_number <= 8:
