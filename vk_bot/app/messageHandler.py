@@ -93,7 +93,7 @@ def create_answer(data):
     if 'auto_posting_on' in payload.keys():
         rcvd_message = 'auto_posting_on'
     
-    action_type = payload.get('type', '')
+    action_type = action.get('type', '')
     
     if action_type == 'chat_invite_user':
         rcvd_message = 'start'
