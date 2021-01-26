@@ -80,6 +80,7 @@ def create_answer(data):
     user_id = data['peer_id']
 
     rcvd_message = re.sub(r'\[\w*\|@\w*\][,\s]?\s?', '', data['text'].lower()) # Из текста убирается упоминание бота с помощью @, если оно присутствует
+    action = json.loads(data.get('action', '{}'))
     payload = json.loads(data.get('payload', '{}'))
     
     payload_reg = payload.get('registration', '')
@@ -88,10 +89,15 @@ def create_answer(data):
     p_type = payload_data[0] if len(payload_data) >= 1 else ''
     p_stage = payload_data[1] if len(payload_data) >= 2 else ''
     p_key = payload_data[2] if len(payload_data) >= 3 else ''
-
+    
     if 'auto_posting_on' in payload.keys():
         rcvd_message = 'auto_posting_on'
-
+    
+    action_type = payload.get('type', '')
+    
+    if action_type == 'chat_invite_user':
+        rcvd_message = 'start'
+    
     if p_type == 'reg':
         attachment = ''
         text_data = rcvd_message.split(' ', maxsplit=1)[0]
