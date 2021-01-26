@@ -79,7 +79,7 @@ def create_answer(data):
 
     user_id = data['peer_id']
 
-    rcvd_message = data['text'].lower()
+    rcvd_message = re.sub(r'@\w*\b\s{,1}', '', data['text'].lower()) # Из текста убирается упоминание бота с помощью @, если оно присутствует
     payload = json.loads(data.get('payload', '{}'))
     
     payload_reg = payload.get('registration', '')
