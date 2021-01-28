@@ -18,8 +18,6 @@ printf "FLASK_ROUTE_PATH=%s\n"      "$10" >> .env
 
 printf "DB_USER_TAG=%s\n"           "$11" >> .env
 
-printf "FLASK_ROUTE_PATH=%s\n"      "$12" >> .env
-
 printf "TZ=%s\n"                    "Europe/Moscow" >> .env
 
 docker-compose up
