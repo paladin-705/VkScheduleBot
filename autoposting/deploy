@@ -17,6 +17,6 @@ printf "DB_USER_TAG=%s\n"            "$9" >> config.cfg
 
 printf "LOG_DIR_PATH=%s\n"           "/app/log/" >> config.cfg
 
-cp /usr/share/zoneinfo/$10 /etc/localtime && echo $10 > /etc/timezone
+cp /usr/share/zoneinfo/${10} /etc/localtime && echo ${10} > /etc/timezone
 
 python3 auto_posting_thread.py

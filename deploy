@@ -14,9 +14,9 @@ printf "ADMIN_VK_ID=%s\n"           "$8" >> .env
 
 printf "DB_USER_TAG=%s\n"           "$9" >> .env
 
-printf "FLASK_ROUTE_PATH=%s\n"      "$10" >> .env
+printf "FLASK_ROUTE_PATH=%s\n"      "${10}" >> .env
 
-printf "DB_USER_TAG=%s\n"           "$11" >> .env
+printf "DB_USER_TAG=%s\n"           "${11}" >> .env
 
 printf "TZ=%s\n"                    "Europe/Moscow" >> .env
 
