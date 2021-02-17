@@ -1,12 +1,13 @@
+# -*- coding: utf-8 -*-
 from functools import lru_cache
 
 from flask import current_app as app
-
 from app.scheduledb import ScheduleDB
+from app import app
 
 
 @lru_cache(maxsize=1)
-def create_lessons_time_list():
+def create_list():
     time_list = ''
     try:
         with ScheduleDB(app.config) as db:

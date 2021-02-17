@@ -1,6 +1,6 @@
 from flask import current_app as app
 from app import command_system
-from app.create_lessons_time_list import create_lessons_time_list
+from app.create_lessons_time_list import create_list
 from app.messages import error_message
 
 # Статистика
@@ -12,7 +12,7 @@ def lessons_time_list(uid, key, data=""):
     track(app.config['STATISTIC_TOKEN'], uid, key, 'lessons_time_list')
 
     try:
-        message = create_lessons_time_list()
+        message = create_list()
 
         if len(message) == 0:
             message = 'Похоже времени начала и окончания пар ещё нет в базе'
