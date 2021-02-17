@@ -49,7 +49,7 @@ def create_schedule_text(tag, day, week_type=-1):
             title = ' '.join(str(row[1]).split())
             classroom = ' '.join(str(row[2]).split())
 
-            schedule +=  '⏳ | {} пара: '.format(str(row[0]))
+            schedule += '⏳ | {} пара: '.format(str(row[0]))
             # Этот блок нужен для вывода тех занятий, где занятия по числителю и знамнателю различаются
             if index != len(data) - 1:
                 # Сравнивается порядковый номер занятия данной и следующей строки и если они равны,

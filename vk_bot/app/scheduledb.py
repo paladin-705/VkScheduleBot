@@ -195,6 +195,17 @@ class ScheduleDB:
         finally:
             return data
 
+    def get_lessons_time(self):
+        time_arr = []
+        try:
+            self.cur.execute('SELECT DISTINCT "number", "startTime", "endTime" from schedule ORDER BY "number" ASC;')
+            time_arr = self.cur.fetchall()
+        except BaseException as e:
+            app.logger.warning('Select lessons time failed. Error: {0}'.format(str(e)))
+            raise e
+        finally:
+            return time_arr
+
     def get_organizations(self, tag=""):
         organizations = []
         try:
