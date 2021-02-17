@@ -25,6 +25,6 @@ def lessons_time_list(uid, key, data=""):
 
 lessons_time_list_command = command_system.Command()
 
-lessons_time_list_command.keys = ['время', 'time', '/lessons_time', 'lessons_time', '/time', 'time']
+lessons_time_list_command.keys = ['время занятий', 'time', '/lessons_time', 'lessons_time', '/time', 'time']
 lessons_time_list_command.description = 'Выводит время начала и окончания пар'
 lessons_time_list_command.process = lessons_time_list

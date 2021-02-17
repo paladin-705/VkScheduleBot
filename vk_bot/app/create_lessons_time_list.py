@@ -1,5 +1,7 @@
 from functools import lru_cache
 
+from flask import current_app as app
+
 from app.scheduledb import ScheduleDB
 from app import app
 
