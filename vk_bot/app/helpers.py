@@ -119,7 +119,7 @@ def get_keyboard():
 
     today = create_button_primary('Сегодня')
     tomorrow = create_button_primary('Завтра')
-    week = create_button_primary('Вся неделя')
+    #week = create_button_primary('Вся неделя')
 
     monday = create_button_default('Понедельник')
     tuesday = create_button_default('Вторник')
@@ -127,6 +127,8 @@ def get_keyboard():
     thursday = create_button_default('Четверг')
     friday = create_button_default('Пятница')
     sunday = create_button_default('Суббота')
+
+    time_list = create_button_positive('Время занятий')
 
     back = create_button_negative('Назад')
 
@@ -138,6 +140,7 @@ def get_keyboard():
     buttons.append([monday, thursday])
     buttons.append([tuesday, friday])
     buttons.append([wednesday, sunday])
+    buttons.append([time_list])
     buttons.append([back])
 
     return json.dumps(
