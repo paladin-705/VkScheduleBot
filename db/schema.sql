@@ -71,7 +71,7 @@ CREATE OR REPLACE VIEW users_vw AS
 
 CREATE TABLE IF NOT EXISTS reports
 (
-  type character(2),
+  type character(3),
   report_id serial PRIMARY KEY,
   user_id integer,
   report text,
