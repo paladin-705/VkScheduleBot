@@ -65,22 +65,40 @@ def menu_update_groups_number(ip, port, username, password, login_attempt=10):
                     new_group = ''
 
                     group_data = group.split('-')
+                    faculty_data = faculty.split(' ')
                     if len(group_data) == 2:
-                        result = re.match(r"(\d{1,3})(\w*)", group_data[1])
+                        result = re.match(r'(\d{1,3})(\w*)', group_data[1])
 
                         if result:
                             items = result.groups()
 
-                            if len(items) == 2 and items[0].isdigit() and 2 <= len(items[0]) <= 3:
+                            if len(items) == 2 \
+                                    and items[0].isdigit() \
+                                    and 2 <= len(items[0]) <= 3\
+                                    and re.fullmatch(r'(\w+ )*\d \w+', faculty) is not None:
                                 if len(items[0]) == 2:
                                     next_semester_number = int(items[0][0]) + 1
                                     group_number = items[0][1]
                                 elif len(items[0]) == 3:
-                                    next_semester_number = int(items[0][0:1]) + 1
+                                    next_semester_number = int(items[0][:2]) + 1
                                     group_number = items[0][2]
 
                                 new_group = '{}-{}{}{}'.format(group_data[0],
                                                                next_semester_number, group_number, items[1])
+
+                                if len(faculty_data) == 2:
+                                    new_faculty_number = int(faculty_data[0])
+                                elif len(faculty_data) == 3:
+                                    new_faculty_number = int(faculty_data[1])
+
+                                if next_semester_number % 2 != 0:
+                                    new_faculty_number += 1
+
+                                if len(faculty_data) == 2:
+                                    new_faculty = '{} {}'.format(new_faculty_number, faculty_data[1])
+                                elif len(faculty_data) == 3:
+                                    new_faculty = '{} {} {}'.format(faculty_data[0], new_faculty_number,
+                                                                    faculty_data[2])
 
                                 # Бакалавриат
                                 if items[1] == 'Б' and next_semester_number <= 8:
@@ -112,16 +130,18 @@ def menu_update_groups_number(ip, port, username, password, login_attempt=10):
                                     old_faculty=faculty,
                                     old_group=group,
                                     new_org=org,
-                                    new_faculty=faculty,
+                                    new_faculty=new_faculty,
                                     new_group=new_group
                                 )
-                                pass
                             except AccessDeniedError:
                                 access_token, refresh_token = login(ip, port, username, password)
                                 continue
                             break
 
-                        print('CHANGED: {} {} {} -> {} new tag: {}'.format(org, faculty, group, new_group, tag))
+                        print('CHANGED: {} {} {} -> {} {} {} new tag: {}'.format(
+                            org, faculty, group,
+                            org, new_faculty, new_group,
+                            tag))
                         update_list.append([org, faculty, group])
                     elif delete_flg:
                         print('CAN BE DELETED: {} {} {}'.format(org, faculty, group))
