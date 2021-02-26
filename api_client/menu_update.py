@@ -74,7 +74,7 @@ def menu_update_groups_number(ip, port, username, password, login_attempt=10):
 
                             if len(items) == 2 \
                                     and items[0].isdigit() \
-                                    and 2 <= len(items[0]) <= 3\
+                                    and 2 <= len(items[0]) <= 3 \
                                     and re.fullmatch(r'(\w+ )*\d \w+', faculty) is not None:
                                 if len(items[0]) == 2:
                                     next_semester_number = int(items[0][0]) + 1
