@@ -1,6 +1,8 @@
 from flask import current_app as app
 from app.scheduledb import ScheduleDB
+from app.scheduledb import organization_field_length
 from app.messages import error_message
+from app.helpers import create_button_negative
 import json
 
 # Статистика
@@ -34,6 +36,10 @@ def registration_stage_3(uid, key, data):
                         },
                         "color": "default"
                     })
+        buttons.append(create_button_negative('Назад', {
+            'registration': 'reg:stage 2:{0}'.format(
+                str(row[1])[:organization_field_length])
+        }))
 
         return 'Выберите группу:', json.dumps(
             {
