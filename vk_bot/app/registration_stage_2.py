@@ -37,7 +37,7 @@ def registration_stage_2(uid, key, data):
                         },
                         "color": "default"
                     })
-        buttons.append(create_button_negative('Назад', {'registration': 'reg:stage 1:'}))
+        buttons.append([create_button_negative('Назад', {'registration': 'reg:stage 1:'})])
 
         return 'Выберите курс:', json.dumps(
             {
