@@ -3,6 +3,7 @@ from app.scheduledb import ScheduleDB
 from app.scheduledb import organization_field_length
 from app.scheduledb import faculty_field_length
 from app.messages import error_message
+from app.helpers import create_button_negative
 import json
 
 # Статистика
@@ -36,6 +37,7 @@ def registration_stage_2(uid, key, data):
                         },
                         "color": "default"
                     })
+        buttons.append(create_button_negative('Назад', {'registration': 'reg:stage 1:'}))
 
         return 'Выберите курс:', json.dumps(
             {
