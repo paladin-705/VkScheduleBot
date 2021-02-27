@@ -20,13 +20,18 @@ def registration_stage_2(uid, key, data):
 
         if len(result) == 0:
             return error_message, ''
-
+        
+        if len(result) > 8:
+            buttons_in_row = 3
+        else:
+            buttons_in_row = 2
+        
         buttons = []
         for i in range(len(result)):
             row = result[i]
-            if (i % 2) == 0:
+            if (i % buttons_in_row) == 0:
                 buttons.append([])
-            buttons[int(i / 2)].append({
+            buttons[int(i / buttons_in_row)].append({
                         "action": {
                             "type": "text",
                             "label": str(row[0]),
