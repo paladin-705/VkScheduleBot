@@ -36,10 +36,10 @@ def registration_stage_3(uid, key, data):
                         },
                         "color": "default"
                     })
-        buttons.append(create_button_negative('Назад', {
+        buttons.append([create_button_negative('Назад', {
             'registration': 'reg:stage 2:{0}'.format(
                 str(row[1])[:organization_field_length])
-        }))
+        })])
 
         return 'Выберите группу:', json.dumps(
             {
