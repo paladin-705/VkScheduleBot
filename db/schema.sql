@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS examinations
 CREATE TABLE IF NOT EXISTS users
 (
   type character(3),
-  id integer,
+  id bigint,
   name character varying(30),
   username character varying(30),
   "scheduleTag" character(30),
