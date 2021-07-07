@@ -113,26 +113,27 @@ def menu_update_groups_number(ip, port, username, password, login_attempt=10):
                                     delete_flg = True
 
                                 # Специалитет
-                                if items[1] == '' and next_semester_number <= 12:
+                                if not items[1] and next_semester_number <= 12:
                                     change_flg = True
-                                elif items[1] == '' and next_semester_number > 12:
+                                elif not items[1] and next_semester_number > 12:
                                     delete_flg = True
                     if change_flg:
                         tag = None
 
                         for attempt in range(login_attempt):
                             try:
-                                tag = update_group(
-                                    ip=ip,
-                                    port=port,
-                                    access_token=access_token,
-                                    old_org=org,
-                                    old_faculty=faculty,
-                                    old_group=group,
-                                    new_org=org,
-                                    new_faculty=new_faculty,
-                                    new_group=new_group
-                                )
+                                #tag = update_group(
+                                #    ip=ip,
+                                #    port=port,
+                                #    access_token=access_token,
+                                #    old_org=org,
+                                #    old_faculty=faculty,
+                                #    old_group=group,
+                                #    new_org=org,
+                                #    new_faculty=new_faculty,
+                                #    new_group=new_group
+                                #)
+                                pass
                             except AccessDeniedError:
                                 access_token, refresh_token = login(ip, port, username, password)
                                 continue
