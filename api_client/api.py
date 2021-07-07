@@ -173,7 +173,7 @@ def update_group(ip, port, access_token,
         'new_group': new_group
     }
     header = 'Bearer {}'.format(access_token)
-    link = 'http://{}:{}/api/v1/{}/{}/{}/exams'.format(ip, port, old_org, old_faculty, old_group)
+    link = 'http://{}:{}/api/v1/{}/{}/{}'.format(ip, port, old_org, old_faculty, old_group)
     res = requests.put(link, headers={'Authorization': header}, json=data, timeout=timeout)
 
     if res.status_code != 200:
