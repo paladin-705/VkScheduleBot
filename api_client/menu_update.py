@@ -122,18 +122,17 @@ def menu_update_groups_number(ip, port, username, password, login_attempt=10):
 
                         for attempt in range(login_attempt):
                             try:
-                                #tag = update_group(
-                                #    ip=ip,
-                                #    port=port,
-                                #    access_token=access_token,
-                                #    old_org=org,
-                                #    old_faculty=faculty,
-                                #    old_group=group,
-                                #    new_org=org,
-                                #    new_faculty=new_faculty,
-                                #    new_group=new_group
-                                #)
-                                pass
+                                tag = update_group(
+                                    ip=ip,
+                                    port=port,
+                                    access_token=access_token,
+                                    old_org=org,
+                                    old_faculty=faculty,
+                                    old_group=group,
+                                    new_org=org,
+                                    new_faculty=new_faculty,
+                                    new_group=new_group
+                                )
                             except AccessDeniedError:
                                 access_token, refresh_token = login(ip, port, username, password)
                                 continue
