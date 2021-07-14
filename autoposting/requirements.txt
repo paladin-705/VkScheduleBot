@@ -1,3 +1,2 @@
 psycopg2
 vk
-git+git://github.com/google/chatbase-python.git
