@@ -1,8 +1,8 @@
 from flask import make_response, jsonify, request
 from flask import current_app as app
 from flask_jwt_extended import (
-    create_access_token,create_refresh_token,
-    jwt_refresh_token_required, get_jwt_identity
+    create_access_token, create_refresh_token,
+    jwt_required, get_jwt_identity
 )
 
 from app import bcrypt
@@ -68,7 +68,7 @@ def login():
 
 
 @bp.route('/refresh', methods=['POST'])
-@jwt_refresh_token_required
+@jwt_required(refresh=True)
 def refresh():
     current_user = get_jwt_identity()
     ret = {
