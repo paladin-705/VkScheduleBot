@@ -34,7 +34,7 @@ class ScheduleApi(MethodView):
         }
     }
 
-    @jwt_required
+    @jwt_required()
     def get(self, organization, faculty, group):
         # Return the schedule list
         try:
@@ -67,7 +67,7 @@ class ScheduleApi(MethodView):
             app.logger.warning('ScheduleApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail"]), 400)
 
-    @jwt_required
+    @jwt_required()
     def post(self, organization, faculty, group):
         # Add schedule to DB
         try:
@@ -119,7 +119,7 @@ class ScheduleApi(MethodView):
             app.logger.warning('ScheduleApi post: {}'.format(str(e)))
             return make_response(jsonify(self.error["postFail"]), 400)
 
-    @jwt_required
+    @jwt_required()
     def delete(self, organization, faculty, group):
         # Delete the entire schedule
         try:
@@ -138,5 +138,6 @@ class ScheduleApi(MethodView):
         except BaseException as e:
             app.logger.warning('ScheduleApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
+
 
 bp.add_url_rule('/<organization>/<faculty>/<group>/schedule', view_func=ScheduleApi.as_view('schedule_api'))

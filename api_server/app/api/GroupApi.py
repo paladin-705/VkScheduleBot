@@ -48,7 +48,7 @@ class GroupApi(MethodView):
         }
     }
 
-    @jwt_required
+    @jwt_required()
     def get(self, organization, faculty, group):
         # Return the groups list
         try:
@@ -64,7 +64,7 @@ class GroupApi(MethodView):
             app.logger.warning('GroupApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail"]), 400)
 
-    @jwt_required
+    @jwt_required()
     def post(self, organization, faculty, group):
         # Return the groups list
         try:
@@ -84,7 +84,7 @@ class GroupApi(MethodView):
             app.logger.warning('GroupApi post: {}'.format(str(e)))
             return make_response(jsonify(self.error["postFail_unknown"]), 400)
 
-    @jwt_required
+    @jwt_required()
     def put(self, organization, faculty, group):
         # Update the group
         try:
@@ -123,7 +123,7 @@ class GroupApi(MethodView):
             app.logger.warning('GroupApi put: {}'.format(str(e)))
             return make_response(jsonify(self.error["putFail_unknown"]), 400)
 
-    @jwt_required
+    @jwt_required()
     def delete(self, organization, faculty, group):
         # Delete the group
         try:
@@ -133,5 +133,6 @@ class GroupApi(MethodView):
         except BaseException as e:
             app.logger.warning('GroupApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
+
 
 bp.add_url_rule('/<organization>/<faculty>/<group>', view_func=GroupApi.as_view('group_api'))

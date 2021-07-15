@@ -21,7 +21,7 @@ class OrganizationApi(MethodView):
         }
     }
 
-    @jwt_required
+    @jwt_required()
     def get(self, organization):
         # Return the faculties list
         try:
@@ -40,7 +40,7 @@ class OrganizationApi(MethodView):
             app.logger.warning('OrganizationApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail"]), 400)
 
-    @jwt_required
+    @jwt_required()
     def delete(self, organization):
         # Delete the entire organizations
         try:
@@ -50,5 +50,6 @@ class OrganizationApi(MethodView):
         except BaseException as e:
             app.logger.warning('OrganizationApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
+
 
 bp.add_url_rule('/<organization>', view_func=OrganizationApi.as_view('organization_api'))

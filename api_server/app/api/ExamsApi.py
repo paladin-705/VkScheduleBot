@@ -34,7 +34,7 @@ class ExamsApi(MethodView):
         }
     }
 
-    @jwt_required
+    @jwt_required()
     def get(self, organization, faculty, group):
         # Return the exams list
         try:
@@ -63,7 +63,7 @@ class ExamsApi(MethodView):
             app.logger.warning('ExamsApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail_unknown"]), 400)
 
-    @jwt_required
+    @jwt_required()
     def post(self, organization, faculty, group):
         # Add exams to DB
         try:
@@ -101,7 +101,7 @@ class ExamsApi(MethodView):
             app.logger.warning('ExamsApi post: {}'.format(str(e)))
             return make_response(jsonify(self.error["postFail"]), 400)
 
-    @jwt_required
+    @jwt_required()
     def delete(self, organization, faculty, group):
         # Delete the entire exams
         try:
@@ -120,5 +120,6 @@ class ExamsApi(MethodView):
         except BaseException as e:
             app.logger.warning('ExamsApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
+
 
 bp.add_url_rule('/<organization>/<faculty>/<group>/exams', view_func=ExamsApi.as_view('exams_api'))

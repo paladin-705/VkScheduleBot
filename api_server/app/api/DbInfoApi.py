@@ -21,7 +21,7 @@ class DbInfoApi(MethodView):
         }
     }
 
-    @jwt_required
+    @jwt_required()
     def get(self):
         # Return the faculties list
         try:
@@ -40,7 +40,7 @@ class DbInfoApi(MethodView):
             app.logger.warning('DbInfoApi get: {}'.format(str(e)))
             return make_response(jsonify(self.error["getFail"]), 400)
 
-    @jwt_required
+    @jwt_required()
     def delete(self):
         # Delete the entire organizations
         try:
@@ -50,5 +50,6 @@ class DbInfoApi(MethodView):
         except BaseException as e:
             app.logger.warning('DbInfoApi delete: {}'.format(str(e)))
             return make_response(jsonify(self.error["deleteFail"]), 400)
+
 
 bp.add_url_rule('/', view_func=DbInfoApi.as_view('db_info__api'))
