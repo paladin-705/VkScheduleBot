@@ -9,7 +9,7 @@ from app.scheduledb import ScheduleDB
 
 
 class DbInfoApi(MethodView):
-    # /api/<organization>
+    # /api/
     error = {
         "getFail": {
             "error_code": 101,
@@ -23,7 +23,7 @@ class DbInfoApi(MethodView):
 
     @jwt_required()
     def get(self):
-        # Return the faculties list
+        # Return the organizations list
         try:
             with ScheduleDB(app.config) as db:
                 db_data = db.get_organizations()
