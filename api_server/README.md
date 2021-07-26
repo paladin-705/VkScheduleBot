@@ -43,6 +43,8 @@ docker run \
 
 Для примеров запросов в качестве IP адреса и порта сервера API используются значения `api_address` и `api_port`.
 
+
+
 ## Авторизация и получение токена
 Для того, чтобы пользоваться функциями API, необходимо пройти авторизацию и получить `api_token` и `api_refresh_token`. `api_token` в дальнейшем будет использоваться при отправке запросов к API, при этом, он устаревает через 15 минут использования. Для обновления `api_token`, может использоваться `api_refresh_token`.
 
@@ -115,3 +117,179 @@ docker run \
 
     {"access_token":"new_api_token"}
 
+
+
+## Доступ к данным всех организаций (DbInfoApi)
+Эта группа методов позволяет получить информацию о всех организациях хранящихся в базе данных
+
+### Коды ошибок
+В случае ошибки сервер возвращает код 400, а также следующий код ошибки в виде json:
+
+#### Возникла ошибка при получении информации о всех организациях
+    {
+        "error_code": 101,
+        "message": "Select organizations failed"
+    }
+#### Возникла ошибка во время удаления всех организаций
+    {
+        "errorCode": 102,
+        "errorMessage": "Delete organizations failed"
+    }
+
+### Получение списка организаций
+Метод для получения списка организаций в виде json массива. В примере возвращается список состоящий из организаций `org1`, `org2` и `org3`. 
+
+#### Request
+
+`GET /api/v1/`
+
+    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 18:14:08 GMT
+    Content-Type: application/json
+    Content-Length: 134
+    Connection: keep-alive
+
+    ["org1","org2", "org3"]
+
+### Удаление всех организаций
+Метод полностью удаляет все организации из базы данных, а также их расписание занятий и экзаменов.
+
+#### Request
+
+`DELETE /api/v1/`
+
+    curl -X DELETE -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 18:15:12 GMT
+    Content-Type: application/json
+    Content-Length: 3
+    Connection: keep-alive
+
+    {}
+
+
+
+## Доступ к данным организации (OrganizationApi)
+Эта группа методов позволяет получить информацию о выбранной организации
+
+### Коды ошибок
+В случае ошибки сервер возвращает код 400, а также следующий код ошибки в виде json:
+
+#### Возникла ошибка при получении информации об организации
+    {
+        "error_code": 201,
+        "message": "Select organization failed"
+    }
+#### Возникла ошибка во время удаления организации
+    {
+        "errorCode": 202,
+        "errorMessage": "Delete organization failed"
+    }
+
+### Получение списка факультетов выбранной организации
+Метод для получения списка факультетов выбранной организации `organization` в виде json массива. В примере возвращается список состоящий из факультетов `faculty1`, `faculty2` и `faculty3`. 
+
+#### Request
+
+`GET /api/v1/organization`
+
+    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 18:48:08 GMT
+    Content-Type: application/json
+    Content-Length: 35
+    Connection: keep-alive
+
+    ["faculty1","faculty2","faculty3"]
+
+### Удаление выбранной организаций
+Метод удаляет выбранную организацию `organization`, а также её расписание занятий и экзаменов.
+
+#### Request
+
+`DELETE /api/v1/organization`
+
+    curl -X DELETE -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 18:50:32 GMT
+    Content-Type: application/json
+    Content-Length: 3
+    Connection: keep-alive
+
+    {}
+
+
+
+## Доступ к данным факультетов (FacultyApi)
+Эта группа методов позволяет получить информацию о факультетах выбранной организации
+
+### Коды ошибок
+В случае ошибки сервер возвращает код 400, а также следующий код ошибки в виде json:
+
+#### Возникла ошибка при получении информации о факультете
+    {
+        "error_code": 301,
+        "message": "Select faculty failed"
+    }
+#### Возникла ошибка во время удаления факультета
+    {
+        "errorCode": 302,
+        "errorMessage": "Delete faculty failed"
+    }
+
+### Получение списка групп выбранного факультета
+Метод для получения списка групп выбранной факультета `faculty`, принадлежащего организации `organization` в виде json массива. В примере возвращается список состоящий из групп `group1`, `group2` и `group3`. 
+
+#### Request
+
+`GET /api/v1/organization/faculty`
+
+    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 19:14:50 GMT
+    Content-Type: application/json
+    Content-Length: 29
+    Connection: keep-alive
+
+    ["group1","group2","group3"]
+
+### Удаление выбранного факультета
+Метод удаляет выбранный факультет `faculty` организации `organization`, а также его расписание занятий и экзаменов.
+
+#### Request
+
+`DELETE /api/v1/organization/faculty`
+
+    curl -X DELETE -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 19:16:18 GMT
+    Content-Type: application/json
+    Content-Length: 3
+    Connection: keep-alive
+
+    {}
