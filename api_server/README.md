@@ -104,7 +104,6 @@ db_port = Порт сервера БД (число)
 
 # Создание хеша пароля
 pw_hash = bcrypt.hashpw(api_password.encode('utf-8'), bcrypt.gensalt())
-print(len(pw_hash))
 
 # Загрузка нового пользователя APi в базу данных
 con = psycopg2.connect(
