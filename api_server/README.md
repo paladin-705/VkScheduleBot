@@ -442,29 +442,29 @@ docker run \
 
 #### Возникла ошибка при получении информации о расписании занятий выбранной группы
     {
-            "error_code": 501,
-            "message": "Select schedule failed"
-        },
+        "error_code": 501,
+        "message": "Select schedule failed"
+    }
 #### Возникла ошибка во время удаления расписания занятий выбранной группы
-        "deleteFail": {
-            "errorCode": 502,
-            "errorMessage": "Delete schedule failed"
-        },
+    {
+        "errorCode": 502,
+        "errorMessage": "Delete schedule failed"
+    }
 #### Возникла ошибка во время добавления расписания занятий выбранной группы (неизвестная ошибка)
-        "postFail": {
-            "error_code": 503,
-            "message": "Create schedule failed"
-        },
+    {
+        "error_code": 503,
+        "message": "Create schedule failed"
+    }
 #### Возникла ошибка во время удаления расписания занятий выбранной группы (в запросе отсутствуют json данные расписания)
-        "postFail_empty": {
-            "error_code": 504,
-            "message": "Empty data"
-        },
+    {
+        "error_code": 504,
+        "message": "Empty data"
+    }
 #### Неизвестная группа (такой группы не существует) 
-        "unknownGroup": {
-            "error_code": 505,
-            "message": "Unknown group"
-        }
+    {
+        "error_code": 505,
+        "message": "Unknown group"
+    }
 
 ### Получение расписания занятий выбранной группы
 Метод для получения расписания занятий группы `group` (принадлежащей факультету `faculty` организации `organization`). В примере возвращается json массив с тремя значениями (тремя занятиями).
@@ -476,10 +476,10 @@ docker run \
     "number": Номер занятия (число),
     "week_type": "Допустимы лишь следующие значения: odd -  занятие проводится по нечётным неделям, even - по чётным неделям, all - каждую неделю",
     "title": "Название занятия",
-    "classroom": "Аудитория в которой проводится занятие",
-    "lecturer": "Преподаватель ведущий занятие",
-    "time_start": "Время начала занятия",
-    "time_end": "Время окончания занятия"
+    "classroom": "Аудитория в которой проводится занятие. Необязательный параметр",
+    "lecturer": "Преподаватель ведущий занятие. Необязательный параметр",
+    "time_start": "Время начала занятия (Формат: ЧЧ:ММ). Необязательный параметр",
+    "time_end": "Время окончания занятия (Формат: ЧЧ:ММ). Необязательный параметр"
 }
 ```
 
@@ -503,46 +503,48 @@ docker run \
 ### Добавление расписания занятий выбранной группы
 Метод позволяет добавить расписание занятий для выбранной группы `group` (принадлежащей факультету `faculty` организации `organization`). Добавляемое расписание должно быть представлено в виде json массива, формат которого рассматривается ниже. 
 
-В качестве примера запроса, для группы `group` (принадлежащей факультету `faculty` организации `organization`), будут добавлены следующие занятия:
+В качестве примера запроса, для группы `group` (принадлежащей факультету `faculty` организации `organization`), будут добавлены следующие занятия в виде массива `data`:
 ```json
-[
+{
+  "data": [
     {
-        "day": "Понедельник",
-        "number": 1,
-        "week_type": "odd",
-        "title": "Test title 1",
-        "classroom": "classroom 1",
-        "lecturer": "lecturer 1",
-        "time_start": "08:30",
-        "time_end": "10:05"
+      "day": "Понедельник",
+      "number": 1,
+      "week_type": "odd",
+      "title": "Test title 1",
+      "classroom": "classroom 1",
+      "lecturer": "lecturer 1",
+      "time_start": "08:30",
+      "time_end": "10:05"
     },
     {
-        "day": "Tuesday",
-        "number": 2,
-        "week_type": "even",
-        "title": "Test title 2",
-        "classroom": "classroom 2",
-        "lecturer": "lecturer 2",
-        "time_start": "10:20",
-        "time_end": "11:55"
+      "day": "Tuesday",
+      "number": 2,
+      "week_type": "even",
+      "title": "Test title 2",
+      "classroom": "classroom 2",
+      "lecturer": "lecturer 2",
+      "time_start": "10:20",
+      "time_end": "11:55"
     },
     {
-        "day": "Wednesday",
-        "number": 3,
-        "week_type": "all",
-        "title": "Test title 3",
-        "classroom": "classroom 3",
-        "lecturer": "lecturer 3",
-        "time_start": "12:10",
-        "time_end": "13:45"
+      "day": "Wednesday",
+      "number": 3,
+      "week_type": "all",
+      "title": "Test title 3",
+      "classroom": "classroom 3",
+      "lecturer": "lecturer 3",
+      "time_start": "12:10",
+      "time_end": "13:45"
     }
-]
+  ]
+}
 ```
 Поле `week_type` может принимать только значения `odd`, `even` или `all`. Они соответствуют парам, которые проходят лишь по нечётным (`odd`) и чётным (`even`) неделям, а также парам, которые проходят каждую неделю (`all`).
 
 Поля `classroom`, `time_start`, `time_end` и `lecturer`, являются необязательными.
 
-Метод возвращает массив из занятий, которые не удалось добавить (массив `failed`), если все занятия были добавлены, то он будет пуст.
+Метод возвращает массив из занятий, которые не удалось добавить (массив `failed`), если все занятия были добавлены, то массив `failed` будет пуст.
 
 #### Request
 
@@ -568,7 +570,7 @@ docker run \
 
 `DELETE /api/v1/organization/faculty/group/schedule`
 
-    curl -X DELETE -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/schedule -H 'Content-Type: application/json' -d '{"data": [{"day": "Monday","number": 1,"week_type": "odd","title": "Test title 1","classroom": "classroom 1","lecturer": "lecturer 1","time_start": "08:30","time_end": "10:05"}, {"day": "Tuesday","number": 2,"week_type": "even","title": "Test title 2","classroom": "classroom 2","lecturer": "lecturer 2","time_start": "10:20","time_end": "11:55"},{"day": "Wednesday","number": 3,"week_type": "all","title": "Test title 3","classroom": "classroom 3","lecturer": "lecturer 3","time_start": "12:10","time_end": "13:45"}]}'
+    curl -X DELETE -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/schedule
 
 #### Response
 
@@ -581,3 +583,135 @@ docker run \
 
     {}
 
+
+
+## Доступ к данным расписания экзаменов выбранной группы (ExamsApi)
+Эта группа методов позволяет получить информацию о расписании экзаменов выбранной группы
+
+### Коды ошибок
+В случае ошибки сервер возвращает код 400, а также следующий код ошибки в виде json:
+
+#### Возникла ошибка при получении информации о расписании экзаменов выбранной группы
+    {
+        "error_code": 601,
+        "message": "Select exams failed"
+    }
+#### Возникла ошибка во время удаления расписания экзаменов выбранной группы
+    {
+        "errorCode": 602,
+        "errorMessage": "Delete exams failed"
+    }
+#### Возникла ошибка во время добавления расписания экзаменов выбранной группы (неизвестная ошибка)
+    {
+        "error_code": 603,
+        "message": "Create exams failed"
+    }
+#### Возникла ошибка во время удаления расписания экзаменов выбранной группы (в запросе отсутствуют json данные расписания)
+    {
+        "error_code": 604,
+        "message": "Empty data"
+    }
+#### Неизвестная группа (такой группы не существует) 
+    {
+        "error_code": 605,
+        "message": "Unknown group"
+    }
+
+### Получение расписания экзаменов выбранной группы
+Метод для получения расписания экзаменов группы `group` (принадлежащей факультету `faculty` организации `organization`). В примере возвращается json массив с тремя значениями (тремя экзаменами).
+
+Каждый элемент json массива имеет следующую структуру:
+```json
+{
+    "day": "День проведения экзамена (Формат: ДД.ММ.ГГГГ)",
+    "title": "Название экзамена",
+    "classroom": "Аудитория в которой проводится экзамен. Необязательный параметр",
+    "lecturer": "Преподаватель принимающий экзамен. Необязательный параметр"
+}
+```
+
+#### Request
+
+`GET /api/v1/organization/faculty/group/exams`
+
+    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/exams
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 21:44:09 GMT
+    Content-Type: application/json
+    Content-Length: 371
+    Connection: keep-alive
+
+    [{"classroom":"Test classroom 1","day":"Mon, 25 Jan 2021 00:00:00 GMT","lecturer":"Test lecturer 1","title":"Test title 1"},{"classroom":"Test classroom 2","day":"Tue, 26 Jan 2021 00:00:00 GMT","lecturer":"Test lecturer 2","title":"Test title 2"},{"classroom":"Test classroom 3","day":"Wed, 27 Jan 2021 00:00:00 GMT","lecturer":"Test lecturer 3","title":"Test title 3"}]
+
+### Добавление расписания экзаменов выбранной группы
+Метод позволяет добавить расписание экзаменов для выбранной группы `group` (принадлежащей факультету `faculty` организации `organization`). Добавляемое расписание должно быть представлено в виде json массива, формат которого рассматривается ниже. 
+
+В качестве примера запроса, для группы `group` (принадлежащей факультету `faculty` организации `organization`), будут добавлены следующие экзамены в виде массива `data`:
+```json
+{
+  "data": [
+    {
+      "day": "25.01.2021",
+      "title": "Test title 1",
+      "classroom": "Test classroom 1",
+      "lecturer": "Test lecturer 1"
+    },
+    {
+      "day": "26.01.2021",
+      "title": "Test title 2",
+      "classroom": "Test classroom 2",
+      "lecturer": "Test lecturer 2"
+    },
+    {
+      "day": "27.01.2021",
+      "title": "Test title 3",
+      "classroom": "Test classroom 3",
+      "lecturer": "Test lecturer 3"
+    }
+  ]
+}
+```
+Поля `classroom` и `lecturer`, являются необязательными.
+
+Метод возвращает массив из экзаменов, которые не удалось добавить (массив `failed`), если все экзамены были добавлены, то массив `failed` будет пуст.
+
+#### Request
+
+`POST /api/v1/organization/faculty/group/exams`
+
+    curl -X POST -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/exams -H 'Content-Type: application/json' -d '{"data": [{"day": "25.01.2021","title": "Test title 1","classroom": "Test classroom 1","lecturer": "Test lecturer 1"}, {"day": "26.01.2021","title": "Test title 2","classroom": "Test classroom 2","lecturer": "Test lecturer 2"}, {"day": "27.01.2021","title": "Test title 3","classroom": "Test classroom 3","lecturer": "Test lecturer 3"}]}'
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 21:46:15 GMT
+    Content-Type: application/json
+    Content-Length: 14
+    Connection: keep-alive
+
+    {"failed":[]}
+
+### Удаление расписания экзаменов выбранной группы
+Метод производит удаление всего расписания экзаменов для выбранной группы `group` (принадлежащей факультету `faculty` организации `organization`).
+
+#### Request
+
+`DELETE /api/v1/organization/faculty/group/exams`
+
+    curl -X DELETE -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/exams
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 21:48:00 GMT
+    Content-Type: application/json
+    Content-Length: 3
+    Connection: keep-alive
+
+    {}
