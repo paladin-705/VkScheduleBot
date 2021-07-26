@@ -26,3 +26,49 @@ Docker Hub: [paladin705/vk_schedule_bot_autoposting](https://hub.docker.com/r/pa
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/paladin705/vk_schedule_bot_api)
 
 Docker Hub: [paladin705/vk_schedule_bot_api](https://hub.docker.com/r/paladin705/vk_schedule_bot_api)
+
+## Пример запуска бота с помощью Docker compose из готовых Docker образов
+Пример рассчитан на использование Linux.
+
+Для запуска бота из готовых Docker образов вам понадобятся файлы `deploy`, `docker-compose.yml` и `db/schema.sql` расположенные в папке репозитория. Клонируйте репозиторий и перенесите эти файлы в новую папку (в примере используется папка `bot`:
+```shell
+git clone https://github.com/paladin-705/VkScheduleBot.git
+
+mkdir bot
+mkdir bot/db
+
+cp VkScheduleBot/deploy bot/deploy
+cp VkScheduleBot/docker-compose.yml bot/docker-compose.yml
+cp VkScheduleBot/db/schema.sql bot/db/schema.sql
+
+rm -r VkScheduleBot
+```
+Перейдите в папку `bot` и сделайте файл  `deploy` исполняемым:
+```shell
+cd bot
+chmod +x deploy
+```
+Запустите скрипт `deploy` для установки параметров бота и запуска Docker контейнеров:
+```shell
+./deploy <PG_DB> <PG_USER> <PG_PASSWORD> \
+         <VK_CONFIRMATION_TOKEN> <VK_API_TOKEN> \ 
+         <STATISTIC_TOKEN> <WEEK_TYPE> <ADMIN_VK_ID> \
+         <DB_USER_TAG> <FLASK_ROUTE_PATH>
+```
+#### Параметры скрипта
+
+* `PG_DB` - Название базы данных (БД) PostgreSQL
+* `PG_USER` - Имя пользователя БД
+* `PG_PASSWORD` - Пароль пользователя БД
+* `VK_CONFIRMATION_TOKEN` - Токен для подтверждения адреса сервера. Параметр VK Callback API
+* `VK_API_TOKEN` - Ключ доступа к сообщениям сообщества. Параметр VK API
+* `STATISTIC_TOKEN` - Токен для отправки статистики на [chatbase.com](https://chatbase.com/). Необязательный параметр (На данный момент не используется - Chatbase прекращает работу 27 сентября 2021 года)
+* `WEEK_TYPE` - Тип первой недели семестра 0 - числитель, 1 - знаменатель
+* `ADMIN_VK_ID` - VK ID страницы администратора (только номер) для отправки информации о состоянии сервера. Необязательный параметр
+* `DB_USER_TAG` - Идентификатор пользователей бота (используется для разделения пользователей, при общей базе данных для нескольких ботов
+* `FLASK_ROUTE_PATH` - Опредлеляет адрес сервера бота для VK Callback API
+
+В дальнейшем, если изменение настроек не требуется, можно запускать бота с помощью команды:
+```shell
+docker-compose up -d
+```
