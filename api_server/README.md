@@ -76,6 +76,10 @@ docker run \
         "error_code": 705,
         "errorMessage": "Unknown error"
     }
+#### Срок действия токена истек
+    {
+        "msg":"Token has expired"
+    }
 
 ### Авторизация
 Для получения `api_token` и `api_refresh_token`, необходимо авторизоваться, путём ввода имени пользователя `api_user` и соответствующего ему пароля `api_password`.
@@ -427,3 +431,153 @@ docker run \
     Connection: keep-alive
 
     {}
+
+
+
+## Доступ к данным расписания занятий выбранной группы (ScheduleApi)
+Эта группа методов позволяет получить информацию о расписании занятий выбранной группы
+
+### Коды ошибок
+В случае ошибки сервер возвращает код 400, а также следующий код ошибки в виде json:
+
+#### Возникла ошибка при получении информации о расписании занятий выбранной группы
+    {
+            "error_code": 501,
+            "message": "Select schedule failed"
+        },
+#### Возникла ошибка во время удаления расписания занятий выбранной группы
+        "deleteFail": {
+            "errorCode": 502,
+            "errorMessage": "Delete schedule failed"
+        },
+#### Возникла ошибка во время добавления расписания занятий выбранной группы (неизвестная ошибка)
+        "postFail": {
+            "error_code": 503,
+            "message": "Create schedule failed"
+        },
+#### Возникла ошибка во время удаления расписания занятий выбранной группы (в запросе отсутствуют json данные расписания)
+        "postFail_empty": {
+            "error_code": 504,
+            "message": "Empty data"
+        },
+#### Неизвестная группа (такой группы не существует) 
+        "unknownGroup": {
+            "error_code": 505,
+            "message": "Unknown group"
+        }
+
+### Получение расписания занятий выбранной группы
+Метод для получения расписания занятий группы `group` (принадлежащей факультету `faculty` организации `organization`). В примере возвращается json массив с тремя значениями (тремя занятиями).
+
+Каждый элемент json массива имеет следующую структуру:
+```json
+{
+    "day": "День недели (английское название)",
+    "number": Номер занятия (число),
+    "week_type": "Допустимы лишь следующие значения: odd -  занятие проводится по нечётным неделям, even - по чётным неделям, all - каждую неделю",
+    "title": "Название занятия",
+    "classroom": "Аудитория в которой проводится занятие",
+    "lecturer": "Преподаватель ведущий занятие",
+    "time_start": "Время начала занятия",
+    "time_end": "Время окончания занятия"
+}
+```
+
+#### Request
+
+`GET /api/v1/organization/faculty/group/schedule`
+
+    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/schedule
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 20:58:01 GMT
+    Content-Type: application/json
+    Content-Length: 468
+    Connection: keep-alive
+
+    [{"classroom":"classroom 1","day":"Monday","endTime":"10:05:00","lecturer":"lecturer 1","number":1,"startTime":"08:30:00","title":"Test title 1","type":0},{"classroom":"classroom 2","day":"Tuesday","endTime":"11:55:00","lecturer":"lecturer 2","number":2,"startTime":"10:20:00","title":"Test title 2","type":1},{"classroom":"classroom 3","day":"Wednesday","endTime":"13:45:00","lecturer":"lecturer 3","number":3,"startTime":"12:10:00","title":"Test title 3","type":2}]
+
+### Добавление расписания занятий выбранной группы
+Метод позволяет добавить расписание занятий для выбранной группы `group` (принадлежащей факультету `faculty` организации `organization`). Добавляемое расписание должно быть представлено в виде json массива, формат которого рассматривается ниже. 
+
+В качестве примера запроса, для группы `group` (принадлежащей факультету `faculty` организации `organization`), будут добавлены следующие занятия:
+```json
+[
+    {
+        "day": "Понедельник",
+        "number": 1,
+        "week_type": "odd",
+        "title": "Test title 1",
+        "classroom": "classroom 1",
+        "lecturer": "lecturer 1",
+        "time_start": "08:30",
+        "time_end": "10:05"
+    },
+    {
+        "day": "Tuesday",
+        "number": 2,
+        "week_type": "even",
+        "title": "Test title 2",
+        "classroom": "classroom 2",
+        "lecturer": "lecturer 2",
+        "time_start": "10:20",
+        "time_end": "11:55"
+    },
+    {
+        "day": "Wednesday",
+        "number": 3,
+        "week_type": "all",
+        "title": "Test title 3",
+        "classroom": "classroom 3",
+        "lecturer": "lecturer 3",
+        "time_start": "12:10",
+        "time_end": "13:45"
+    }
+]
+```
+Поле `week_type` может принимать только значения `odd`, `even` или `all`. Они соответствуют парам, которые проходят лишь по нечётным (`odd`) и чётным (`even`) неделям, а также парам, которые проходят каждую неделю (`all`).
+
+Поля `classroom`, `time_start`, `time_end` и `lecturer`, являются необязательными.
+
+Метод возвращает массив из занятий, которые не удалось добавить (массив `failed`), если все занятия были добавлены, то он будет пуст.
+
+#### Request
+
+`POST /api/v1/organization/faculty/group/schedule`
+
+    curl -X POST -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/schedule -H 'Content-Type: application/json' -d '{"data": [{"day": "Monday","number": 1,"week_type": "odd","title": "Test title 1","classroom": "classroom 1","lecturer": "lecturer 1","time_start": "08:30","time_end": "10:05"}, {"day": "Tuesday","number": 2,"week_type": "even","title": "Test title 2","classroom": "classroom 2","lecturer": "lecturer 2","time_start": "10:20","time_end": "11:55"},{"day": "Wednesday","number": 3,"week_type": "all","title": "Test title 3","classroom": "classroom 3","lecturer": "lecturer 3","time_start": "12:10","time_end": "13:45"}]}'
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 21:03:49 GMT
+    Content-Type: application/json
+    Content-Length: 14
+    Connection: keep-alive
+
+    {"failed":[]}
+
+### Удаление расписания занятий выбранной группы
+Метод производит удаление всего расписания занятий для выбранной группы `group` (принадлежащей факультету `faculty` организации `organization`).
+
+#### Request
+
+`DELETE /api/v1/organization/faculty/group/schedule`
+
+    curl -X DELETE -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/schedule -H 'Content-Type: application/json' -d '{"data": [{"day": "Monday","number": 1,"week_type": "odd","title": "Test title 1","classroom": "classroom 1","lecturer": "lecturer 1","time_start": "08:30","time_end": "10:05"}, {"day": "Tuesday","number": 2,"week_type": "even","title": "Test title 2","classroom": "classroom 2","lecturer": "lecturer 2","time_start": "10:20","time_end": "11:55"},{"day": "Wednesday","number": 3,"week_type": "all","title": "Test title 3","classroom": "classroom 3","lecturer": "lecturer 3","time_start": "12:10","time_end": "13:45"}]}'
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 21:15:29 GMT
+    Content-Type: application/json
+    Content-Length: 3
+    Connection: keep-alive
+
+    {}
+
