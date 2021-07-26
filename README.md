@@ -30,7 +30,7 @@ Docker Hub: [paladin705/vk_schedule_bot_api](https://hub.docker.com/r/paladin705
 ## Пример запуска бота с помощью Docker compose из готовых Docker образов
 Пример рассчитан на использование Linux.
 
-Для запуска бота из готовых Docker образов вам понадобятся файлы `deploy`, `docker-compose.yml` и `db/schema.sql` расположенные в папке репозитория. Клонируйте репозиторий и перенесите эти файлы в новую папку (в примере используется папка `bot`):
+Для запуска бота из готовых Docker образов вам понадобятся файлы `deploy`, `docker-compose.yml`, `nginx.conf` и `db/schema.sql` расположенные в папке репозитория. Клонируйте репозиторий и перенесите эти файлы в новую папку (в примере используется папка `bot`):
 ```shell
 git clone https://github.com/paladin-705/VkScheduleBot.git
 
@@ -39,6 +39,7 @@ mkdir bot/db
 
 cp VkScheduleBot/deploy bot/deploy
 cp VkScheduleBot/docker-compose.yml bot/docker-compose.yml
+cp VkScheduleBot/nginx.conf bot/nginx.conf
 cp VkScheduleBot/db/schema.sql bot/db/schema.sql
 
 rm -r VkScheduleBot
