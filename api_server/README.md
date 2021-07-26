@@ -293,3 +293,137 @@ docker run \
     Connection: keep-alive
 
     {}
+
+
+
+## Доступ к данным групп (GroupApi)
+Эта группа методов позволяет получить информацию о выбранной группе
+
+### Коды ошибок
+В случае ошибки сервер возвращает код 400, а также следующий код ошибки в виде json:
+
+#### Возникла ошибка при получении информации о группе
+    {
+        "error_code": 401,
+        "message": "Select group failed"
+    }
+#### Возникла ошибка во время удаления группы
+    {
+        "errorCode": 402,
+        "errorMessage": "Delete group failed"
+    }
+#### Возникла ошибка во время добавления группы (такая группа уже существует)
+    {
+        "error_code": 403,
+        "message": "Group already created"
+    }
+#### Возникла ошибка во время добавления группы (неизвестная ошибка)
+    {
+        "error_code": 404,
+        "message": "Create group failed"
+    }
+#### Возникла ошибка во время обновления группы (в запросе отсутствуют json данные)
+    {
+        "error_code": 405,
+        "message": "Missing json in request"
+    }
+#### Возникла ошибка во время обновления группы (в запросе отсутствуют данные новой названия организации группы)
+    {
+        "error_code": 406,
+        "message": "Missing new_organization parameter"
+    }
+#### Возникла ошибка во время обновления группы (в запросе отсутствуют данные нового названия факультета группы)
+    {
+        "error_code": 407,
+        "message": "Missing new_faculty parameter"
+    }
+#### Возникла ошибка во время обновления группы (в запросе отсутствуют данные нового названия группы)
+    {
+        "error_code": 408,
+        "message": "Missing new_group parameter"
+    }
+#### Возникла ошибка во время обновления группы (неизвестная ошибка)
+    {
+        "error_code": 409,
+        "message": "Change group failed"
+    }
+
+### Получение тега выбранной группы
+Метод для получения тега группы `group` (принадлежащей факультету `faculty` организации `organization`). В примере возвращается тег группы имеющий значение `group_tag`.
+
+#### Request
+
+`GET /api/v1/organization/faculty/group`
+
+    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 19:42:53 GMT
+    Content-Type: application/json
+    Content-Length: 33
+    Connection: keep-alive
+
+    "group_tag"
+
+### Добавление новой группы
+Метод позволяет добавить группу `group` принадлежащую факультету `faculty` организации `organization` в базу данных. Метод возвращает тег добавленной группы `group_tag` в случае успешного выполнения запроса.
+
+#### Request
+
+`POST /api/v1/organization/faculty/group`
+
+    curl -X POST -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 19:47:18 GMT
+    Content-Type: application/json
+    Content-Length: 33
+    Connection: keep-alive
+
+    "group_tag"
+
+### Изменение данных выбранной группы
+Метод позволяет изменить данные группы `group` принадлежащей факультету `faculty` организации `organization`. Он изменяет название группы на `upd_group`, а также изменяет факультет и организацию, которой принадлежит группа, на `upd_faculty` и `upd_organization` соответственно. Метод возвращает обновлённый тег группы `upd_group_tag` в случае успешного выполнения запроса.
+
+#### Request
+
+`PUT /api/v1/organization/faculty/group`
+
+    curl -X PUT -i -H 'Authorization: Bearer api_token' -H 'Content-Type: application/json' -d '{"new_group":"upd_group", "new_faculty":"upd_faculty", "new_organization":"upd_organization"}' http://api_address:api_port/api/v1/organization/faculty/group
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 19:54:29 GMT
+    Content-Type: application/json
+    Content-Length: 33
+    Connection: keep-alive
+
+    "upd_group_tag"
+
+### Удаление выбранной группы
+Метод удаляет выбранную группу `group` (принадлежащую факультету `faculty` организации `organization`), а также её расписание занятий и экзаменов.
+
+#### Request
+
+`DELETE /api/v1/organization/faculty/group`
+
+    curl -X DELETE -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.2
+    Date: Mon, 26 Jul 2021 19:59:59 GMT
+    Content-Type: application/json
+    Content-Length: 3
+    Connection: keep-alive
+
+    {}
