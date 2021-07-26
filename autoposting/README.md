@@ -6,7 +6,7 @@
 Docker Hub: [paladin705/vk_schedule_bot_autoposting](https://hub.docker.com/r/paladin705/vk_schedule_bot_autoposting)
 
 ## Зависимости
-Модуль использует VK Callback API и СУБД PostgreSQL для хранения данных.
+Модуль использует VK Callback API для отправки расписания и СУБД PostgreSQL для хранения данных.
 
 
 ## Docker
