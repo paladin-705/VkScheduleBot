@@ -9,7 +9,7 @@ from app.scheduledb import ScheduleDB
 
 
 class DbInfoApi(MethodView):
-    # /api/<organization>
+    # /api/
     error = {
         "getFail": {
             "error_code": 101,
