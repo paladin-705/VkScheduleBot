@@ -156,13 +156,13 @@ con.commit()
     }
 
 ### Авторизация
-Для получения `api_token` и `api_refresh_token`, необходимо авторизоваться, путём ввода имени пользователя `api_user` и соответствующего ему пароля `api_password`.
+Для получения `api_token` и `api_refresh_token`, необходимо авторизоваться, путём ввода имени пользователя `api_username` и соответствующего ему пароля `api_password`.
 
 #### Request
 
 `POST /api/auth/login`
 
-    curl -X POST -i -H 'Content-Type: application/json' -d '{"username":"api_user", "password":"api_password"}' http://api_address:api_port/api/auth/login
+    curl -X POST -i -H 'Content-Type: application/json' -d '{"username":"api_username", "password":"api_password"}' http://api_address:api_port/api/auth/login
 
 #### Response
 
