@@ -15,7 +15,7 @@ printf "ADMIN_VK_ID=%s\n"            "$8" >> config.cfg
 
 printf "DB_USER_TAG=%s\n"            "$9" >> config.cfg
 
-printf "VK_ID_BLACKLIST='%s'\n"      "${10}" >> config.cfg
+printf "VK_ID_BLACKLIST=%s\n"        "${10}" >> config.cfg
 
 printf "LOG_DIR_PATH=%s\n"           "/app/log/" >> config.cfg
 
