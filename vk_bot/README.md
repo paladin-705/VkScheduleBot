@@ -34,7 +34,7 @@ docker run \
     -e STATISTIC_TOKEN=<Введите значение параметра> \
     -e WEEK_TYPE=<Введите значение параметра> \
     -e ADMIN_VK_ID=<Введите значение параметра> \
-    -e VK_ID_BLACKLIST=<Введите значение параметра>
+    -e VK_ID_BLACKLIST=<Введите значение параметра> \
     -e TZ=<Введите значение параметра> \
     paladin705/vk_schedule_bot:latest
 ```
