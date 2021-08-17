@@ -18,6 +18,8 @@ config.read('config.cfg')
 
 
 def send_schedule(users, current_time, day, week_type):
+    blacklist = config.get('bot', 'VK_ID_BLACKLIST').split(',')
+    
     if users is None:
         return None
     try:
@@ -25,7 +27,10 @@ def send_schedule(users, current_time, day, week_type):
         for user in users:
             uid = user[0]
             tag = user[1]
-
+            
+            if uid in blacklist:
+                continue
+            
             schedule, is_empty = create_schedule_text(tag, day, week_type)
             if is_empty:
                 continue
@@ -52,13 +57,13 @@ def auto_posting(current_time):
 
     day = helpers.daysOfWeek[datetime.weekday(today)]
 
-    # Выборка пользователей из базы у которых установлена отправка расписния на текущий день
+    # Выборка пользователей из базы у которых установлена отправка расписания на текущий день
     with ScheduleDB() as db:
         users = db.find_users_where(auto_posting_time=current_time, is_today=True)
 
     send_schedule(users, current_time, day, week_type)
 
-    # Выборка пользователей из базы у которых установлена отправка расписния на завтрашний день,
+    # Выборка пользователей из базы у которых установлена отправка расписания на завтрашний день,
     # если сегодня воскресенье, то расписание будет отправляться на понедельник.
     if datetime.weekday(datetime.now()) != 6:
         today += timedelta(days=1)
