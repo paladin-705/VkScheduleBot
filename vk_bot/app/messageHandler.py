@@ -80,7 +80,7 @@ def create_answer(data):
     user_id = data['peer_id']
 
     # Blacklist
-    if user_id in app.config['VK_ID_BLACKLIST'].split(','):
+    if str(user_id) in app.config['VK_ID_BLACKLIST'].split(','):
         return
 
     rcvd_message = re.sub(r'\[\w*\|@\w*\][,\s]?\s?', '', data['text'].lower()) # Из текста убирается упоминание бота с помощью @, если оно присутствует

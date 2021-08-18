@@ -28,7 +28,7 @@ def send_schedule(users, current_time, day, week_type):
             uid = user[0]
             tag = user[1]
             
-            if uid in blacklist:
+            if str(uid) in blacklist:
                 continue
             
             schedule, is_empty = create_schedule_text(tag, day, week_type)
