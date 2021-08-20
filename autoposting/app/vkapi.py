@@ -1,7 +1,7 @@
 import vk
 
 session = vk.Session()
-api = vk.API(session, v='5.80')
+api = vk.API(session, v='5.131')
 
 
 def send_auto_posting_message(user_id, token, message, attachment=""):
