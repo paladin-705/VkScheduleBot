@@ -8,7 +8,7 @@ api = vk.API(session, v='5.131')
 
 def send_message(data, token, message, attachment='', keyboard=''):
     try:
-        random_id = int(time.time()) & 0xffffffff
+        random_id = int(time.time()*1000) & 0xffffffff
         
         if keyboard != '':
             api.messages.send(access_token=token,
@@ -31,7 +31,7 @@ def send_message(data, token, message, attachment='', keyboard=''):
 
 def send_auto_posting_message(user_id, token, message, attachment=""):
     try:
-        random_id = int(time.time()) & 0xffffffff
+        random_id = int(time.time()*1000) & 0xffffffff
         
         api.messages.send(access_token=token,
                           from_id=str(user_id),
@@ -45,7 +45,7 @@ def send_auto_posting_message(user_id, token, message, attachment=""):
 
 def send_error_message(token, message, attachment=""):
     try:
-        random_id = int(time.time()) & 0xffffffff
+        random_id = int(time.time()*1000) & 0xffffffff
         
         if app.config['ADMIN_VK_ID']:
             api.messages.send(access_token=token,
