@@ -2,7 +2,7 @@ from flask import current_app as app
 import vk
 
 session = vk.Session()
-api = vk.API(session, v='5.80')
+api = vk.API(session, v='5.131')
 
 
 def send_message(data, token, message, attachment='', keyboard=''):
