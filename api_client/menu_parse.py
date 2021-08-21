@@ -30,4 +30,3 @@ def menu_parse_exams():
     with open('exams_data.json', 'w') as outfile:
         json.dump(json_data, outfile, indent=4, sort_keys=True)
     print('Расписание экзаменов сохранено в exams_data.json')
-
