@@ -41,6 +41,8 @@ docker run \
 ## Работа с API
 Сервер реализует REST API для взаимодействия с базой данных бота. С API можно взаимодействовать не только с помощью программы [api_client](../api_client), но и с помощью http-запросов.
 
+GET методы API (методы для получения данных) доступны без авторизации.
+
 Для примеров запросов в качестве IP адреса и порта сервера API используются значения `api_address` и `api_port`.
 
 ### Содержание
@@ -221,7 +223,7 @@ con.commit()
 
 `GET /api/v1/`
 
-    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/
+    curl -X GET http://api_address:api_port/api/v1/
 
 #### Response
 
@@ -280,7 +282,7 @@ con.commit()
 
 `GET /api/v1/organization`
 
-    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization
+    curl -X GET http://api_address:api_port/api/v1/organization
 
 #### Response
 
@@ -339,7 +341,7 @@ con.commit()
 
 `GET /api/v1/organization/faculty`
 
-    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty
+    curl -X GET http://api_address:api_port/api/v1/organization/faculty
 
 #### Response
 
@@ -433,7 +435,7 @@ con.commit()
 
 `GET /api/v1/organization/faculty/group`
 
-    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group
+    curl -X GET http://api_address:api_port/api/v1/organization/faculty/group
 
 #### Response
 
@@ -561,7 +563,7 @@ con.commit()
 
 `GET /api/v1/organization/faculty/group/schedule`
 
-    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/schedule
+    curl -X GET http://api_address:api_port/api/v1/organization/faculty/group/schedule
 
 #### Response
 
@@ -708,7 +710,7 @@ con.commit()
 
 `GET /api/v1/organization/faculty/group/exams`
 
-    curl -X GET -i -H 'Authorization: Bearer api_token' http://api_address:api_port/api/v1/organization/faculty/group/exams
+    curl -X GET http://api_address:api_port/api/v1/organization/faculty/group/exams
 
 #### Response
 
