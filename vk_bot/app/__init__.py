@@ -36,7 +36,7 @@ def processing():
         if data['type'] == 'confirmation':
             return app.config['CONFIRMATION_TOKEN']
         elif data['type'] == 'message_new':
-            messageHandler.create_answer(data['object'])
+            messageHandler.create_answer(data['object']['message'])
             return 'ok'
         elif data['type'] == 'message_deny':
             messageHandler.message_deny_handler(data['object'])
