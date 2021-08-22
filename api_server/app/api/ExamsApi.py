@@ -34,7 +34,6 @@ class ExamsApi(MethodView):
         }
     }
 
-    @jwt_required()
     def get(self, organization, faculty, group):
         # Return the exams list
         try:

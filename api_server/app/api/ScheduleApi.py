@@ -34,7 +34,6 @@ class ScheduleApi(MethodView):
         }
     }
 
-    @jwt_required()
     def get(self, organization, faculty, group):
         # Return the schedule list
         try:

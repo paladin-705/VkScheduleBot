@@ -21,7 +21,6 @@ class OrganizationApi(MethodView):
         }
     }
 
-    @jwt_required()
     def get(self, organization):
         # Return the faculties list
         try:

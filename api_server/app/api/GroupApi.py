@@ -48,7 +48,6 @@ class GroupApi(MethodView):
         }
     }
 
-    @jwt_required()
     def get(self, organization, faculty, group):
         # Return the groups list
         try:

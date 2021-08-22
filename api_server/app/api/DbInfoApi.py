@@ -21,7 +21,6 @@ class DbInfoApi(MethodView):
         }
     }
 
-    @jwt_required()
     def get(self):
         # Return the organizations list
         try:
