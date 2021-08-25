@@ -50,10 +50,20 @@ class ScheduleApi(MethodView):
 
             data = []
             for row in schedule:
+                week_type = row[3]
+                if week_type == 0:
+                    week_type_text = 'odd'
+                elif week_type == 1:
+                    week_type_text = 'even'
+                elif week_type == 2:
+                    week_type_text = 'all'
+                else:
+                    week_type_text = ''
+
                 data.append({
                     'day': del_end_space(row[7]),
                     'number': row[0],
-                    'week_type': row[3],
+                    'week_type': week_type_text,
                     'title': del_end_space(row[1]),
                     'classroom': del_end_space(row[2]),
                     'lecturer': del_end_space(row[6]),
