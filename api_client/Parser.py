@@ -121,7 +121,7 @@ class Parser:
 
         xls = pd.ExcelFile(self.file_name)
         for sheet in xls.sheet_names:
-            df = pd.read_excel(self.file_name, sheet, header=header_row)
+            df = pd.read_excel(self.file_name, sheet, header=header_row, index_col=[0, 1])
             df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
             json_data[sheet] = {}
@@ -138,7 +138,7 @@ class Parser:
 
         xls = pd.ExcelFile(self.file_name)
         for sheet in xls.sheet_names:
-            df = pd.read_excel(self.file_name, sheet, header=header_row)
+            df = pd.read_excel(self.file_name, sheet, header=header_row, index_col=0)
             df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
             json_data[sheet] = {}
