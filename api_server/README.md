@@ -574,7 +574,7 @@ con.commit()
     Content-Length: 468
     Connection: keep-alive
 
-    [{"classroom":"classroom 1","day":"Monday","endTime":"10:05:00","lecturer":"lecturer 1","number":1,"startTime":"08:30:00","title":"Test title 1","type":0},{"classroom":"classroom 2","day":"Tuesday","endTime":"11:55:00","lecturer":"lecturer 2","number":2,"startTime":"10:20:00","title":"Test title 2","type":1},{"classroom":"classroom 3","day":"Wednesday","endTime":"13:45:00","lecturer":"lecturer 3","number":3,"startTime":"12:10:00","title":"Test title 3","type":2}]
+    [{"classroom":"classroom 1","day":"Monday","time_end":"10:05","lecturer":"lecturer 1","number":1,"time_start":"08:30","title":"Test title 1","week_type":"odd"},{"classroom":"classroom 2","day":"Tuesday","time_end":"11:55","lecturer":"lecturer 2","number":2,"time_start":"10:20","title":"Test title 2","week_type":"even"},{"classroom":"classroom 3","day":"Wednesday","time_end":"13:45","lecturer":"lecturer 3","number":3,"time_start":"12:10","title":"Test title 3","week_type":"all"}]
 
 ### Добавление расписания занятий выбранной группы
 Метод позволяет добавить расписание занятий для выбранной группы `group` (принадлежащей факультету `faculty` организации `organization`). Добавляемое расписание должно быть представлено в виде json массива, формат которого рассматривается ниже. 
