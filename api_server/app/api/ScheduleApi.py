@@ -51,14 +51,14 @@ class ScheduleApi(MethodView):
             data = []
             for row in schedule:
                 data.append({
+                    'day': del_end_space(row[7]),
                     'number': row[0],
+                    'week_type': row[3],
                     'title': del_end_space(row[1]),
                     'classroom': del_end_space(row[2]),
-                    'type': row[3],
-                    'startTime': str(row[4]),
-                    'endTime': str(row[5]),
                     'lecturer': del_end_space(row[6]),
-                    'day': del_end_space(row[7])
+                    'time_start': str(row[4])[:5],
+                    'time_end': str(row[5])[:5]
                 })
 
             return make_response(jsonify(data), 200)
