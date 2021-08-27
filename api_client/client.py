@@ -11,8 +11,8 @@ from menu_delete import (menu_delete_all_orgs, menu_delete_org, menu_delete_facu
 def show_menu():
     print('=======\n')
     print('Парсинг данных:')
-    print('1.\tПарсинг xls файла с расписанием занятий')
-    print('2.\tПарсинг xls файла с расписанием экзаменов')
+    print('1.\tПарсинг xlsx файла с расписанием занятий')
+    print('2.\tПарсинг xls/xlsx файла с расписанием экзаменов')
 
     print('Просмотр данных:')
     print('3.\tВывод структуры групп в БД')
