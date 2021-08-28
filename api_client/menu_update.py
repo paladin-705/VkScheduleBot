@@ -57,7 +57,7 @@ def menu_update_groups_number(ip, port, username, password, login_attempt=10):
         access_token, refresh_token = login(ip, port, username, password)
 
         for org in org_structure.keys():
-            for faculty in org_structure[org].keys():
+            for faculty in sorted(org_structure[org].keys(), key=lambda x: x[0], reverse=True):
                 for group in org_structure[org][faculty]:
                     change_flg = False
                     delete_flg = False
