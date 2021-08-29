@@ -6,7 +6,7 @@ from Parser import Parser
 def menu_parse_schedule():
     file_name = input('Введите имя xlsx файла: ')
     organization = input('Введите название организации: ')
-    header_row = int(input('Номер столбца заголовков (по умолчанию 0): ') or '0')
+    header_row = int(input('Номер строки заголовков (по умолчанию 0): ') or '0')
 
     # Предварительная обработка файла (разбиение объединённых ячеек)
     wb = load_workbook(filename=file_name)
@@ -37,7 +37,7 @@ def menu_parse_schedule():
 def menu_parse_exams():
     file_name = input('Введите имя xls/xlsx файла: ')
     organization = input('Введите название организации: ')
-    header_row = int(input('Номер столбца заголовков (по умолчанию 0): '))
+    header_row = int(input('Номер строки заголовков (по умолчанию 0): '))
 
     with Parser(file_name) as parser:
         data = parser.parse_exams_from_excel(header_row)
