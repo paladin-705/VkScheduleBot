@@ -16,6 +16,7 @@ Docker Hub: [paladin705/vk_schedule_bot](https://hub.docker.com/r/paladin705/vk_
 
 * Модуль для автоматической отправки расписания: [autoposting](../autoposting)
 * Модуль для работы с базой данных бота (добавление/изменение/удаление групп и файлов расписания): [api_server](../api_server)
+* Панель управления базой данных бота: [VkScheduleBot Control Panel](https://github.com/paladin-705/VkScheduleBotDB_ControlPanel). Предоставляет веб-интерфейс для взаимодействия с БД расписания, а также позволяет редактировать пользователей API бота (модуль [api_server](./api_server))
 
 ## Docker
 Для запуска docker контейнера загружаемого с [Docker Hub](https://hub.docker.com/r/paladin705/vk_schedule_bot) можно использовать следующую команду:
