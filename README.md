@@ -6,7 +6,7 @@
 * Модуль для автоматической отправки расписания: [autoposting](./autoposting)
 * Модуль для работы с базой данных бота (просмотр/добавление/изменение/удаление групп и файлов расписания): [api_server](./api_server)
 * Программа для взаимодействия с сервером API бота (просмотр/добавление/изменение/удаление групп и файлов расписания): [api_client](./api_client)
-* Панель управления базой данных бота: [VkScheduleBot Control Panel](https://github.com/paladin-705/VkScheduleBotDB_ControlPanel). Предоставляет веб-интерфейс для взаимодействия с БД расписания, а также позволяет редактировать пользователей API бота (модуль [api_server](./api_server)). Панель управления является модулем для [VkScheduleBot](./vk_bot).
+* Панель управления базой данных бота: [VkScheduleBot Control Panel](https://github.com/paladin-705/VkScheduleBotDB_ControlPanel). Предоставляет веб-интерфейс для взаимодействия с БД расписания, а также позволяет редактировать пользователей API бота (модуль [api_server](./api_server)). Панель управления является модулем для [VkScheduleBot](./vk_bot) и [UniversityScheduleBot](https://github.com/paladin-705/UniversityScheduleBot).
 
 Также бот совместим с ботом для Telegram ([UniversityScheduleBot](https://github.com/paladin-705/UniversityScheduleBot)) - боты могут использовать одну базу данных для хранения расписания и информации о пользователях.
 
