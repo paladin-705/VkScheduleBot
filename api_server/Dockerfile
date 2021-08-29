@@ -14,7 +14,9 @@ WORKDIR /api
 RUN apk update \
     && apk upgrade \
     && apk add tzdata \
-    && apk add git build-base postgresql-dev libffi-dev
+    && apk add git build-base postgresql-dev libffi-dev \
+    && mkdir log \
+    && mkdir socket
 
 COPY deploy requirements.txt ./
 
