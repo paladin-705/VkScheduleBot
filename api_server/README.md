@@ -1,5 +1,5 @@
 # VkScheduleBot API Server
-Сервер предоставляющий интерфейс для взимодействия с БД расписания. Модуль для [VkScheduleBot](../vk_bot).
+Сервер предоставляющий интерфейс для взаимодействия с БД расписания. Модуль для [VkScheduleBot](../vk_bot).
 
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/paladin705/vk_schedule_bot_api)
 
