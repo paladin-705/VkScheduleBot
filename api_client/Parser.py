@@ -119,7 +119,7 @@ class Parser:
     def parse_schedule_from_excel(self, header_row=0):
         json_data = {}
 
-        xls = pd.ExcelFile(self.file_name)
+        xls = pd.ExcelFile(self.file_name, engine='openpyxl')
         for sheet in xls.sheet_names:
             df = pd.read_excel(self.file_name, sheet, header=header_row, index_col=[0, 1])
             df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
@@ -136,7 +136,7 @@ class Parser:
     def parse_exams_from_excel(self, header_row=0):
         json_data = {}
 
-        xls = pd.ExcelFile(self.file_name)
+        xls = pd.ExcelFile(self.file_name, engine='openpyxl')
         for sheet in xls.sheet_names:
             df = pd.read_excel(self.file_name, sheet, header=header_row, index_col=0)
             df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
