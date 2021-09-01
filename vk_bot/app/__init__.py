@@ -41,6 +41,8 @@ def processing():
         elif data['type'] == 'message_deny':
             messageHandler.message_deny_handler(data['object'])
             return 'ok'
+        else
+            return ''
     except BaseException as e:
         app.logger.warning('processing: {}\n{}'.format(str(e), str(data)))
         vkapi.send_error_message(app.config['TOKEN'], '__init__.py: ' + str(e) + '\n' + str(data))
