@@ -41,7 +41,7 @@ def processing():
         elif data['type'] == 'message_deny':
             messageHandler.message_deny_handler(data['object'])
             return 'ok'
-        else
+        else:
             return ''
     except BaseException as e:
         app.logger.warning('processing: {}\n{}'.format(str(e), str(data)))
