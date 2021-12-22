@@ -131,6 +131,8 @@ def get_keyboard():
     time_list = create_button_positive('Время занятий')
 
     back = create_button_negative('Назад')
+    
+    update = create_button_default('Обновить', {'schedule': ''})
 
     if now.month == 1 or now.month == 12 or now.month == 5 or now.month == 6:
         exams = create_button_default('Экзамены')
@@ -141,7 +143,7 @@ def get_keyboard():
     buttons.append([tuesday, friday])
     buttons.append([wednesday, sunday])
     buttons.append([time_list])
-    buttons.append([back])
+    buttons.append([back, update])
 
     return json.dumps(
         {
